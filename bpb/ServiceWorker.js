@@ -1,9 +1,9 @@
 const cacheName = "Psytofu-BChannel-0.1";
 const contentToCache = [
-    "Build/bpb.loader.js",
-    "Build/bpb.framework.js.unityweb",
-    "Build/bpb.data.unityweb",
-    "Build/bpb.wasm.unityweb",
+    "Build/Bchannel.loader.js",
+    "Build/Bchannel.framework.js.unityweb",
+    "Build/Bchannel.data.unityweb",
+    "Build/Bchannel.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
