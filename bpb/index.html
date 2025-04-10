@@ -7,6 +7,13 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:title" content="BChannel">
+    <meta name="twitter:image" content="https://stb369.github.io/bchannel.github.io/bpb/bigfour.jpg">
+    <meta name="twitter:player" content="https://stb369.github.io/bchannel.github.io/bpb/index.html">
+    <meta name="twitter:player:height" content="360">
+    <meta name="twitter:player:width" content="540">
+    <script src="https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js"></script>
   </head>
   <body>
     <div id="unity-container">
@@ -57,12 +64,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/bpb.loader.js";
+      var loaderUrl = buildUrl + "/Bchannel.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/bpb.data.unityweb",
-        frameworkUrl: buildUrl + "/bpb.framework.js.unityweb",
-        codeUrl: buildUrl + "/bpb.wasm.unityweb",
+        dataUrl: buildUrl + "/Bchannel.data.unityweb",
+        frameworkUrl: buildUrl + "/Bchannel.framework.js.unityweb",
+        codeUrl: buildUrl + "/Bchannel.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
