@@ -64,12 +64,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Bchannel.loader.js";
+      var loaderUrl = buildUrl + "/bpb.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/Bchannel.data.unityweb",
-        frameworkUrl: buildUrl + "/Bchannel.framework.js.unityweb",
-        codeUrl: buildUrl + "/Bchannel.wasm.unityweb",
+        dataUrl: buildUrl + "/bpb.data.unityweb",
+        frameworkUrl: buildUrl + "/bpb.framework.js.unityweb",
+        codeUrl: buildUrl + "/bpb.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
@@ -100,7 +100,11 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+          nethereumUnityInstance = unityInstance;
           loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
         }).catch((message) => {
           alert(message);
         });
