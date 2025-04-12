@@ -1646,8 +1646,8 @@ var ASM_CONSTS = {
     }
 
   function _CompilePlayerContract(solidityCode) {
-      console.log("compile start");
       const code = UTF8ToString(solidityCode);
+      console.log("compile address:"+code);
       const input = {
         language: 'Solidity',
         sources: {
