@@ -1284,10 +1284,10 @@ function dbg(text) {
 // === Body ===
 
 var ASM_CONSTS = {
-  7003808: () => { Module['emscripten_get_now_backup'] = performance.now; },  
- 7003863: ($0) => { performance.now = function() { return $0; }; },  
- 7003911: ($0) => { performance.now = function() { return $0; }; },  
- 7003959: () => { performance.now = Module['emscripten_get_now_backup']; }
+  7003968: () => { Module['emscripten_get_now_backup'] = performance.now; },  
+ 7004023: ($0) => { performance.now = function() { return $0; }; },  
+ 7004071: ($0) => { performance.now = function() { return $0; }; },  
+ 7004119: () => { performance.now = Module['emscripten_get_now_backup']; }
 };
 
 
@@ -1645,13 +1645,13 @@ var ASM_CONSTS = {
       }
     }
 
-  function _CompilePlayerContract(solidityCode) {
+  function _CompileUniqueContract(solidityCode) {
       const code = UTF8ToString(solidityCode);
       console.log("compile address:"+code);
       const input = {
         language: 'Solidity',
         sources: {
-          'Player.sol': {
+          'Unique.sol': {
             content: code
           }
         },
@@ -1672,7 +1672,7 @@ var ASM_CONSTS = {
           return;
         }
     
-        const contract = output.contracts['Player.sol'];
+        const contract = output.contracts['Unique.sol'];
         const name = Object.keys(contract)[0];
         const abi = contract[name].abi;
         const bytecode = contract[name].evm.bytecode.object;
@@ -17587,7 +17587,7 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var wasmImports = {
-  "CompilePlayerContract": _CompilePlayerContract,
+  "CompileUniqueContract": _CompileUniqueContract,
   "EnableEthereum": _EnableEthereum,
   "EthereumInit": _EthereumInit,
   "EthereumInitRpcClientCallback": _EthereumInitRpcClientCallback,
