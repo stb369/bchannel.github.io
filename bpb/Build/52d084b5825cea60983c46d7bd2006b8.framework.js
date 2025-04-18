@@ -1668,7 +1668,7 @@ var ASM_CONSTS = {
         const output = JSON.parse(solc.compile(JSON.stringify(input)));
         if (output.errors) {
           const errors = output.errors.map(e => e.formattedMessage).join('\n');
-          SendMessage('GameManager', 'OnCompilationError', errors);
+          console.log('errors:'+errors);
           return;
         }
     
@@ -1678,9 +1678,9 @@ var ASM_CONSTS = {
         const bytecode = contract[name].evm.bytecode.object;
         const result = JSON.stringify({ abi, bytecode });
     
-        SendMessage('GameManager', 'OnContractCompiled', result);
+        console.log('result:' + result);
       } catch (e) {
-        SendMessage('GameManager', 'OnCompilationError', e.message);
+        console.log('e:' + e.message);
       }
     }
 
