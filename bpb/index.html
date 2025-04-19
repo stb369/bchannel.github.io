@@ -15,6 +15,7 @@
     <meta name="twitter:player:width" content="540">
     <script>
       //const script = document.createElement("script");
+      console.error("solc will load");
       script.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
       script.onload = () => {
         console.log("solc loaded:", typeof solc, solc.version());
