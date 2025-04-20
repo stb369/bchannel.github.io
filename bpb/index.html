@@ -14,16 +14,16 @@
     <meta name="twitter:player:height" content="360">
     <meta name="twitter:player:width" content="540">
     <script>
-      //const script = document.createElement("script");
+      const solscript = document.createElement("script");
       console.log("solc will load");
-      script.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
-      script.onload = () => {
+      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
+      solscript.onload = () => {
         console.log("solc loaded:", typeof solc, solc.version());
       };
-      script.onerror = () => {
+      solscript.onerror = () => {
         console.error("solc failed to load!");
       };
-      document.head.appendChild(script);
+      document.head.appendChild(solscript);
     </script>
     
   </head>
@@ -38,6 +38,12 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
+
+    <p id="source">pragma solidity ^0.8.2;\n\ncontract mortal {\n    /* Define variable owner of the type address*/\n    address owner;\n\n    /* this function is executed at initialization and sets the owner of the contract */\n    function mortal() { owner = msg.sender; }\n\n    /* Function to recover the funds on the contract */\n    // function kill() { if (msg.sender == owner) selfdestruct(owner); }\n}\n\ncontract greeter is mortal {\n    /* define variable greeting of the type string */\n    string greeting;\n\n    /* this runs when the contract is executed */\n    function greeter(string _greeting) public {\n        greeting = _greeting;\n    }\n\n    /* main function */\n    function greet() constant returns (string) {\n        return greeting;\n    }\n}</p>
+    <p id="versions">versions:</p>
+    <p id="status">status:</p>
+    <p id="compile-output">compile-output:</p>
+
     <script>
       window.addEventListener("load", function () {
         if ("serviceWorker" in navigator) {
@@ -76,12 +82,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/b26d82b2a1e3fb01682fff6e97436545.loader.js"+"?ts="+(new Date()).getTime();
+      var loaderUrl = buildUrl + "/319ef6c982a2117350ca54125fffa138.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/a4437f17bbeddfcc4aed9c59d0ef8594.data",
-        frameworkUrl: buildUrl + "/94ad375d664a29f3777cb95fa337cf6f.framework.js",
-        codeUrl: buildUrl + "/9be8e2e5fb1b26ee07a5884f9f680fd0.wasm",
+        dataUrl: buildUrl + "/320c991650cd352d0a54d98af338ea82.data",
+        frameworkUrl: buildUrl + "/beedd57b212dba9594df7942b6aae859.framework.js",
+        codeUrl: buildUrl + "/0a5c2799dc2515f26879a936a07ea12a.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
