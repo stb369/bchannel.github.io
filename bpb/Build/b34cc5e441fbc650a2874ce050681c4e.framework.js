@@ -1710,10 +1710,10 @@ var ASM_CONSTS = {
       }
 
   function _ExecuteJs(id,methodName,jsonData,callbackGameObjectName){
-       id = Pointer_stringify(id);
-       methodName = Pointer_stringify(methodName);
-       jsonData = Pointer_stringify(jsonData);
-       callbackGameObjectName = Pointer_stringify(callbackGameObjectName);
+       id = UTF8ToString(id);
+       methodName = UTF8ToString(methodName);
+       jsonData = UTF8ToString(jsonData);
+       callbackGameObjectName = UTF8ToString(callbackGameObjectName);
    
        var jsonObj = JSON.parse(jsonData);
        jsonObj.Id = id;
@@ -1771,8 +1771,8 @@ var ASM_CONSTS = {
       }
 
   function _InjectionJs(id,url){
-       url = Pointer_stringify(url);
-       id = Pointer_stringify(id);
+       url = UTF8ToString(url);
+       id = UTF8ToString(id);
    
       // idを渡して、同じidだった場合は要素を生成しないようにしておく
       if(!document.getElementById(id))
