@@ -1,4 +1,4 @@
-
+//このソースファイルをC#のURLで指定する
 hoge = function() {
     return {
         // Unityからのメッセージを受け取るハンドラ登録
