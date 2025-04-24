@@ -9,7 +9,7 @@ hoge = function() {
           },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
         ExecuteJs: function(message) {
-            console.log("ExecuteJs message@:"+message);
+            console.log("ExecuteJs message:"+message);
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
             }
