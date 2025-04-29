@@ -13,7 +13,20 @@
     <meta name="twitter:player" content="https://stb369.github.io/bchannel.github.io/bpb/index.html">
     <meta name="twitter:player:height" content="360">
     <meta name="twitter:player:width" content="540">
-    <script src="https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js"></script>
+    <script>
+      const solscript = document.createElement("script");
+      console.log("solc will load");
+      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
+      solscript.onload = () => {
+        console.log("solc loaded:", typeof solc, solc.version());
+      };
+      solscript.onerror = () => {
+        console.error("solc failed to load!");
+      };
+      document.head.appendChild(solscript);
+    </script>
+    <script id="compile" src="js/interface.js"></script>
+    
   </head>
   <body>
     <div id="unity-container">
@@ -26,6 +39,12 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
+
+    <p id="source">pragma solidity ^0.8.2;\n\ncontract mortal {\n    /* Define variable owner of the type address*/\n    address owner;\n\n    /* this function is executed at initialization and sets the owner of the contract */\n    function mortal() { owner = msg.sender; }\n\n    /* Function to recover the funds on the contract */\n    // function kill() { if (msg.sender == owner) selfdestruct(owner); }\n}\n\ncontract greeter is mortal {\n    /* define variable greeting of the type string */\n    string greeting;\n\n    /* this runs when the contract is executed */\n    function greeter(string _greeting) public {\n        greeting = _greeting;\n    }\n\n    /* main function */\n    function greet() constant returns (string) {\n        return greeting;\n    }\n}</p>
+    <p id="versions">versions:</p>
+    <p id="status">status:</p>
+    <p id="compile-output">compile-output:</p>
+
     <script>
       window.addEventListener("load", function () {
         if ("serviceWorker" in navigator) {
@@ -64,16 +83,16 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Bchannel.loader.js";
+      var loaderUrl = buildUrl + "/ada6fb5e908c32b1063cb5681fa9f224.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/Bchannel.data.unityweb",
-        frameworkUrl: buildUrl + "/Bchannel.framework.js.unityweb",
-        codeUrl: buildUrl + "/Bchannel.wasm.unityweb",
+        dataUrl: buildUrl + "/d2a22bc208a32b9d6a1e178c34339a32.data",
+        frameworkUrl: buildUrl + "/e6dae9b6f277bd45233501195de93671.framework.js",
+        codeUrl: buildUrl + "/c1ac53b00ea1b1abe44fb33e9b2c7617.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
-        productVersion: "0.1",
+        productVersion: "0.1.1",
         showBanner: unityShowBanner,
       };
 
@@ -100,7 +119,11 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+          nethereumUnityInstance = unityInstance;
           loadingBar.style.display = "none";
+          //fullscreenButton.onclick = () => {
+            //unityInstance.SetFullscreen(1);
+          //};
         }).catch((message) => {
           alert(message);
         });
