@@ -1721,7 +1721,7 @@ var ASM_CONSTS = {
         //srcに入ったurl先のソースコードの中にある関数の名前を指定する
        jsonObj.MethodName = methodName;
   
-       console.log('ExecutionJsLib');
+       console.log('ExecutionJsLib\nid:'+id+'\nmethodName:'+methodName+'\njsonData:'+jsonData+'\ncallback:'+callbackGameObjectName);//ここまで確認
   　　　// メッセージを返してもらうためのGameObject名を渡しておく
        jsonObj.CallbackGameObjectName = callbackGameObjectName;
    
