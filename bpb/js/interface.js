@@ -16,7 +16,7 @@ hoge = function() {
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
             var evalString = methodName + '(parameterObject)';
-            eval(evalString);
+            eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
           },
 
         ShowHtml: function(parameterObject) {
