@@ -1731,7 +1731,7 @@ var ASM_CONSTS = {
        console.log('jsonObj:'+jsonObj);
        console.log('messageSTR:'+messageString);
        console.log('url:' + url);
-       window.postMessage(messageString, url);//
+       window.postMessage(messageString, "*");//"*"はurlに置き換えられる
    }
 
   async function _GetChainId(gameObjectName, callback, fallback) {
@@ -1791,6 +1791,10 @@ var ASM_CONSTS = {
          s.setAttribute('id',id);
          //そのscriptのソースコードを読み込むurlをsrcタグに指定
          s.setAttribute('src',url);
+          // スクリプトの読み込み完了後に InitializationEventListener を実行
+          s.onload = function () {
+              hoge.InitializationEventListener();
+          };
          document.head.appendChild(s);
       }
    }
