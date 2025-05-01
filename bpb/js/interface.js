@@ -18,6 +18,23 @@ hoge = function() {
             var methodName = parameterObject.MethodName;
             var evalString = methodName + '(parameterObject)';
             eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
+            // メタデータから対応するファイルパスを取得
+            const filePath = functionsMeta[methodName];
+            if (!filePath) {
+            console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
+            return;
+            }
+
+            // 動的にファイルをインポートして関数を実行
+            const module = await import(filePath);
+            if (typeof module.default === 'function') {
+                module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            } else {
+                console.warn(`"${methodName}" は有効な関数ではありません。`);
+            }
+        } catch (error) {
+            console.error("メッセージの処理中にエラーが発生しました:", error);
+        }
           },
 
         ShowHtml: function(parameterObject) {
