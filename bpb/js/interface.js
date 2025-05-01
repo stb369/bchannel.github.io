@@ -19,7 +19,7 @@ hoge = function() {
             var evalString = methodName + '(parameterObject)';
             //eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
             if (typeof window[methodName] === 'function'){
-                window[methodName](param.arg1);
+                window[methodName](param.SolidityCode);
             }else{
                 console.log('関数 ${methodName} は定義されていません');
             }
