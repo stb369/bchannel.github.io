@@ -17,9 +17,15 @@ hoge = function() {
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
             var evalString = methodName + '(parameterObject)';
-            eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
+            //eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
+            console.log(typeof window[methodName]);
+            if (typeof window[methodName] === 'function'){
+                window[methodName](parameterObject.SolidityCode);
+            }else{
+                console.log('関数 '+ methodName +' は定義されていません');
+            }
           },
-
+    
         ShowHtml: function(parameterObject) {
             // IFrame生成
             webview.method.CreateIframe(parameterObject);
