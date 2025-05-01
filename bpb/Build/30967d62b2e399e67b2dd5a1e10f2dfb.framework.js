@@ -1793,7 +1793,8 @@ var ASM_CONSTS = {
          s.setAttribute('src',url);
           // スクリプトの読み込み完了後に InitializationEventListener を実行
           s.onload = function () {
-              hoge.InitializationEventListener();
+              s.hoge.InitializationEventListener();
+              
           };
          document.head.appendChild(s);
       }

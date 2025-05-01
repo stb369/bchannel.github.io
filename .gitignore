@@ -1,1 +1,2 @@
-bpb/js/interface.js
+bpb/js/*
+!bpb/js/functions
