@@ -1,9 +1,9 @@
 const cacheName = "Psytofu-BChannel-0.1.1";
 const contentToCache = [
-    "Build/5f2c280a556469753e71cbc5e1fb547c.loader.js",
+    "Build/c6dc100e1b231eb34124f4c62faa5317.loader.js",
     "Build/94cd52e3b7053aca6d0767deb398e5b8.framework.js",
-    "Build/2d95571026ced5c57f48054124b0a3d4.data",
-    "Build/db180e8172e44c89472e9ef7965837aa.wasm",
+    "Build/e1af3a9d683c8f06d327bd109ed871a7.data",
+    "Build/248021a37745a8e245eb88ab682f6ddc.wasm",
     "TemplateData/style.css"
 
 ];
