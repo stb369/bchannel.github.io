@@ -18,6 +18,7 @@ hoge = function() {
             var methodName = parameterObject.MethodName;
             var evalString = methodName + '(parameterObject)';
             //eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
+            console.log(typeof window[methodName]);
             if (typeof window[methodName] === 'function'){
                 window[methodName](parameterObject.SolidityCode);
             }else{
