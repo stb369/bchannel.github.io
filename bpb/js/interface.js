@@ -21,7 +21,7 @@ hoge = function() {
             if (typeof window[methodName] === 'function'){
                 window[methodName](parameterObject.SolidityCode);
             }else{
-                console.log('関数 ${methodName} は定義されていません');
+                console.log('関数 '+ methodName +' は定義されていません');
             }
           },
     
