@@ -1,9 +1,10 @@
-import functionMeta from './functions.json';
+
 
 //このソースファイルをC#のURLで指定する
 hoge = function() {
     return {
         // Unityからのメッセージを受け取るハンドラ登録
+        import functionMeta from './functions.json';
         InitializationEventListener: function() {
             console.log('InitializationEventListener called');
             window.addEventListener('message', function(event) {
