@@ -1794,7 +1794,7 @@ var ASM_CONSTS = {
           // スクリプトの読み込み完了後に InitializationEventListener を実行
           s.onload = function () {
               //window.hoge.InitializationEventListener();
-              console.log(typeof window.hoge);
+              console.log('window.hoge type:'+(typeof window.hoge));
               if(typeof window.hoge !== "undefined"){
                   window.hoge.InitializationEventListener();
               }
