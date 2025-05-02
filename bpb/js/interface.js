@@ -32,9 +32,6 @@ hoge = function() {
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
-        } catch (error) {
-            console.error("メッセージの処理中にエラーが発生しました:", error);
-        }
           },
 
         ShowHtml: function(parameterObject) {
@@ -143,7 +140,7 @@ hoge = function() {
           InitOnLoad: function() {
             if (typeof window !== 'undefined') {
               window.addEventListener('load', function () {
-                console.log("✅ window.onload triggered from jslib!");
+                console.log("window.onload triggered from jslib!");
                 // ここに初期化処理など
               });
             }
