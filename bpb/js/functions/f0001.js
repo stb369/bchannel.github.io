@@ -1,5 +1,5 @@
 //このソースファイルをC#のURLで指定する
-export default function CompileUniqueContract(solidityCode,arg2,arg3,arg4,arg5,arg6) {
+export default function f0001(solidityCode,arg2,arg3,arg4,arg5,arg6) {
             
   const code = UTF8ToString(solidityCode);
   console.log("compile address:"+code);
