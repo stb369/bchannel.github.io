@@ -4,7 +4,7 @@
 hoge = function() {
     return {
         // Unityからのメッセージを受け取るハンドラ登録
-        import functionMeta from './functions.json';
+        import functionMeta from './functions.json' assert { type: 'json' };
         InitializationEventListener: function() {
             console.log('InitializationEventListener called');
             window.addEventListener('message', function(event) {
