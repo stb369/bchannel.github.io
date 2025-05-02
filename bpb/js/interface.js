@@ -17,11 +17,11 @@ hoge = function() {
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
             var evalString = methodName + '(parameterObject)';
-            eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
+            //eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
             // メタデータから対応するファイルパスを取得
             const filePath = functionsMeta[methodName];
             if (!filePath) {
-            console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
+                console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
             return;
             }
 
