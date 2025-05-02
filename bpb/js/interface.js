@@ -14,7 +14,8 @@ hoge = function() {
         ExecuteJs: function(message) {
             console.log("ExecuteJs message:"+message);
             let functionMeta;
-            fetch('./js/functions.json').then(response => response.json()).then(data => {functionMeta = data; console.log('functionMeta:'+functionMeta);});
+            fetch('./js/functions.json').then(response => response.json()).then(data => {functionMeta = data;});
+            console.log('functionMeta:'+functionMeta);
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
             }
