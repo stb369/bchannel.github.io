@@ -1,3 +1,5 @@
+import functionMeta from './functions.json';
+
 //このソースファイルをC#のURLで指定する
 hoge = function() {
     return {
