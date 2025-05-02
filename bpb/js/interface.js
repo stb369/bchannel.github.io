@@ -24,6 +24,7 @@ hoge = function() {
             var evalString = methodName + '(parameterObject)';
             //eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
             // メタデータから対応するファイルパスを取得
+            console.log(`methodName:'+methodName);
             const filePath = functionMeta[methodName];
             if (!filePath) {
                 console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
