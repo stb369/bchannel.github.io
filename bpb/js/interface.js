@@ -26,7 +26,7 @@ hoge = function() {
             }
 
             // 動的にファイルをインポートして関数を実行
-            const module = await import(filePath);
+            const module = import(filePath);
             if (typeof module.default === 'function') {
                 module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
             } else {
