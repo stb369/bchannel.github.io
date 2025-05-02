@@ -4,7 +4,6 @@
 hoge = function() {
     return {
         // Unityからのメッセージを受け取るハンドラ登録
-        import functionMeta from './functions.json' assert { type: 'json' };
         InitializationEventListener: function() {
             console.log('InitializationEventListener called');
             window.addEventListener('message', function(event) {
@@ -14,6 +13,8 @@ hoge = function() {
         // 受け取ったメッセージから、evalを使って関数を呼び出す
         ExecuteJs: function(message) {
             console.log("ExecuteJs message:"+message);
+            let functionMeta;
+            fetch('./functions.json').then(response => response.json()).then(data => {functionMeta = data; console.log(functionMeta);});
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
             }
