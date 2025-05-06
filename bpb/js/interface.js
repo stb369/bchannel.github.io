@@ -19,7 +19,7 @@ hoge = function() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json(); // JSONとしてパース
-  }).then(data => {console.log("data:" + data)});
+  }).then(data => {console.log("data:" + data["f0001"])});
             console.log('functionMeta:'+functionMeta);
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
