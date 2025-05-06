@@ -1,4 +1,4 @@
 {
-    "CompileUniqueContract": "/interface.js",
-    "f0001": "/functions/f0001.js"
+    "CompileUniqueContract": "interface.js",
+    "f0001": "functions/f0001.js"
 }
