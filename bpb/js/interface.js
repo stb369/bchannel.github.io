@@ -14,7 +14,7 @@ hoge = function() {
         ExecuteJs: function(message) {
             console.log("ExecuteJs message:"+message);
             let functionMeta;
-            fetch('https://stb369.github.io/bchannel.github.io/bpb/js/functions.json').then(response => response.json()).then(data => {console.log("data:" + data)}); functionMeta = data;});
+            fetch('https://stb369.github.io/bchannel.github.io/bpb/js/functions.json').then(response => response.json()).then(data => {console.log("data:" + data)});
             console.log('functionMeta:'+functionMeta);
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
