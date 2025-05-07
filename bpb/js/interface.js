@@ -20,7 +20,7 @@ hoge = function() {
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
             // メタデータから対応するファイルパスを取得
-            console.log('methodName:'+methodName+'\nfunctionMeta:'+JSON.stringify(functionMeta, null, 2));
+            console.log('methodName:'+methodName);
             (async () => {
                 await FetchJS(methodName, parameterObject);
             })();
