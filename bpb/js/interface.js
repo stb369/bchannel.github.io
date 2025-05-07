@@ -14,13 +14,15 @@ hoge = function() {
         ExecuteJs: function(message) {
             console.log("ExecuteJs message:"+message);
             let functionMeta;
-            fetch('https://stb369.github.io/bchannel.github.io/bpb/js/functions.json').then(response => {
+            fetch('/functions.json').then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json(); // JSONとしてパース
   }).then(data => {console.log("data:" + data["f0001"])});
             console.log('functionMeta:'+functionMeta);
+
+            //ここから第2セクション
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
             }
