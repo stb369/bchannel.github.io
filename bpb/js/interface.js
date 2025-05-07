@@ -13,26 +13,32 @@ hoge = function() {
         // 受け取ったメッセージから、evalを使って関数を呼び出す
         ExecuteJs: function(message) {
             console.log("ExecuteJs message:"+message);
-            let functionMeta;
-            fetch('/functions.json').then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json(); // JSONとしてパース
-  }).then(data => {console.log("data:" + data["f0001"])});
-            console.log('functionMeta:'+functionMeta);
-
-            //ここから第2セクション
+            //引数をJsonに
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
             }
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
-            var evalString = methodName + '(parameterObject)';
-            //eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
             // メタデータから対応するファイルパスを取得
             console.log('methodName:'+methodName+'\nfunctionMeta:'+JSON.stringify(functionMeta, null, 2));
-            const filePath = functionMeta[methodName];
+            (async () => {
+                await FetchJS(methodName, parameterObject);
+            })();
+        },
+
+        FetchJS: async function(methodName, parameterObject){
+        
+            //非同期処理
+            let functionMeta;
+            fetch('./functions.json').then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); // JSONとしてパース
+  }).then(data => {console.log("data:" + data[methodName]); functionMeta = data[methodName]});
+            console.log('functionMeta:'+functionMeta);
+
+            const filePath = functionMeta;//functionMetaに格納する時点でvalue値にする
             if (!filePath) {
                 console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
             return;
@@ -41,12 +47,15 @@ hoge = function() {
             // 動的にファイルをインポートして関数を実行
             const module = import(filePath);
             if (typeof module.default === 'function') {
+                console.log('That's goal');
                 module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
-          },
-
+        },
+            
+        
+        
         ShowHtml: function(parameterObject) {
             // IFrame生成
             webview.method.CreateIframe(parameterObject);
