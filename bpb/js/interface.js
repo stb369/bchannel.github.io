@@ -19,9 +19,8 @@ hoge = function() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json(); // JSONとしてパース
-  }).then(data => {console.log("data:" + data[methodName]); functionMeta = data[methodName]});
+  }).then(data => {console.log("data:" + data[methodName]); functionMeta = data[methodName]}).then(
             console.log('functionMeta:'+functionMeta);
-
             const filePath = functionMeta;//functionMetaに格納する時点でvalue値にする
             if (!filePath) {
                 console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
@@ -35,7 +34,8 @@ hoge = function() {
                 module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
-            }
+            }            
+  );
         },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
         ExecuteJs: function(message) {
