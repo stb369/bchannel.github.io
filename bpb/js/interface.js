@@ -49,7 +49,7 @@ hoge = function() {
             // メタデータから対応するファイルパスを取得
             console.log('methodName:'+methodName);
             (async () => {
-                await FetchJS(methodName, parameterObject);
+                await hoge.FetchJS(methodName, parameterObject);
             })();
         },
         
