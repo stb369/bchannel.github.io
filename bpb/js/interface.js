@@ -10,22 +10,6 @@ hoge = function() {
                 hoge.ExecuteJs(event.data);
               }, false);
           },
-        // 受け取ったメッセージから、evalを使って関数を呼び出す
-        ExecuteJs: function(message) {
-            console.log("ExecuteJs message:"+message);
-            //引数をJsonに
-            if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
-                return;
-            }
-            var parameterObject = JSON.parse(message);
-            var methodName = parameterObject.MethodName;
-            // メタデータから対応するファイルパスを取得
-            console.log('methodName:'+methodName);
-            (async () => {
-                await FetchJS(methodName, parameterObject);
-            })();
-        },
-
         FetchJS: async function(methodName, parameterObject){
         
             //非同期処理
@@ -53,8 +37,21 @@ hoge = function() {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
         },
-            
-        
+        // 受け取ったメッセージから、evalを使って関数を呼び出す
+        ExecuteJs: function(message) {
+            console.log("ExecuteJs message:"+message);
+            //引数をJsonに
+            if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
+                return;
+            }
+            var parameterObject = JSON.parse(message);
+            var methodName = parameterObject.MethodName;
+            // メタデータから対応するファイルパスを取得
+            console.log('methodName:'+methodName);
+            (async () => {
+                await FetchJS(methodName, parameterObject);
+            })();
+        },
         
         ShowHtml: function(parameterObject) {
             // IFrame生成
