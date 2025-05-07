@@ -14,7 +14,7 @@ hoge = function() {
         
             //非同期処理
             let functionMeta;
-            fetch('./functions.json').then(response => {
+            fetch('./js/functions.json').then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
