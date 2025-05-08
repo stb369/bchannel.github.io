@@ -19,7 +19,7 @@ hoge = function() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json(); // JSONとしてパース
-  }).then(data => {console.log("data:" + data[methodName]); functionMeta = data[methodName]}).then(data => {
+  }).then(data => {console.log("data: " + data[methodName]); functionMeta = data[methodName]}).then(data => {
             console.log("functionMeta:" + functionMeta);
             const filePath = functionMeta;//functionMetaに格納する時点でvalue値にする
             if (!filePath) {
@@ -29,6 +29,7 @@ hoge = function() {
 
             // 動的にファイルをインポートして関数を実行
             const module = import(filePath);
+            console.log('module:\n' + module)
             if (typeof module.default === 'function') {
                 console.log('That is goal');
                 module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
