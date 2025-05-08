@@ -30,9 +30,9 @@ hoge = function() {
             // 動的にファイルをインポートして関数を実行
             const module = import(filePath);
             console.log('module:\n' + module)
-            if (typeof module.default === 'function') {
+            if (typeof module === 'function') {
                 console.log('That is goal');
-                module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+                module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
