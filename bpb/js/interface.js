@@ -28,13 +28,14 @@ hoge = function() {
             }
 
             // 動的にファイルをインポートして関数を実行
-            const module = import(filePath);
+            //const module = import(filePath);
+            import module from filepath;
             if (typeof module === 'function') {
                 console.log('That is goal');
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
-            module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
     });
         },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
