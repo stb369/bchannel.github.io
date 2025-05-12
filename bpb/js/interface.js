@@ -20,22 +20,24 @@ hoge = function() {
     }
     return response.json(); // JSONとしてパース
   }).then(data => {console.log("data: " + data[methodName]); functionMeta = data[methodName]}).then(data => {
-            console.log("functionMeta:" + functionMeta);
             const filePath = functionMeta;//functionMetaに格納する時点でvalue値にする
             if (!filePath) {
                 console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
             return;
             }
 
+            console.log("filepath '" + filePath + "'");
             // 動的にファイルをインポートして関数を実行
-            //const module = import(filePath);
-            import module from filepath;
-            if (typeof module === 'function') {
-                console.log('That is goal');
-            } else {
-                console.warn(`"${methodName}" は有効な関数ではありません。`);
-            }
-            module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            //const {module} = import(filePath);
+            import(filepath).then((myModule) => {
+                if (myModule.default && typeof module.default === 'function'){
+                    module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+                }else{
+                    console.log("module error");
+                }
+                //module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            });
+            
     });
         },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
