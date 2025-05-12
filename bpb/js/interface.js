@@ -32,10 +32,10 @@ hoge = function() {
             console.log('module:\n' + module.default.toString());
             if (typeof module === 'function') {
                 console.log('That is goal');
-                module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
+            module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
     });
         },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
