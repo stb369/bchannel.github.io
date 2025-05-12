@@ -34,7 +34,7 @@ hoge = function() {
             } else {
                 console.warn(`"${methodName}" は有効な関数ではありません。`);
             }
-            module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            module.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
     });
         },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
