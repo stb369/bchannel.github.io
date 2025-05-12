@@ -29,7 +29,7 @@ hoge = function() {
             console.log("filepath '" + filePath + "'");
             // 動的にファイルをインポートして関数を実行
             //const {module} = import(filePath);
-            import(filepath).then((myModule) => {
+            import(filePath).then((myModule) => {
                 if (myModule.default && typeof module.default === 'function'){
                     module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
                 }else{
