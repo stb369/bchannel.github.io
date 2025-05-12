@@ -29,7 +29,6 @@ hoge = function() {
 
             // 動的にファイルをインポートして関数を実行
             const module = import(filePath);
-            console.log('module:\n' + module.default.toString());
             if (typeof module === 'function') {
                 console.log('That is goal');
             } else {
