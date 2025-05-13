@@ -20,7 +20,7 @@ export default function f0001(solidityCode,arg2,arg3,arg4,arg5,arg6) {
   };
 
   try {
-    const output = JSON.parse(solc.compile(JSON.stringify(input),1));
+    const output = JSON.parse(solc.compile(JSON.stringify(input)));
     if (output.errors) {
       const errors = output.errors.map(e => e.formattedMessage).join('\n');
       console.log('errors:'+errors);
