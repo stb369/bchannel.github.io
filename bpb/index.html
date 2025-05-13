@@ -18,7 +18,7 @@
       console.log("solc will load");
       solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
       solscript.onload = () => {
-        console.log("solc loaded:", typeof solc, solc.version());
+        console.log("solc loaded:", typeof solc);
       };
       solscript.onerror = () => {
         console.error("solc failed to load!");

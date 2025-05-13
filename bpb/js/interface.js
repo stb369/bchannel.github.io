@@ -100,7 +100,7 @@ hoge = function() {
           solcCompile: function(compiler) {
             status("compiling");
             document.getElementById("compile-output").value = "";
-            var result = compiler.compile(getSourceCode(), 1);
+            var result = solc.compile(getSourceCode(), 1);
             var stringResult = JSON.stringify(result);
             document.getElementById("compile-output").value = stringResult;
             status("Compile Complete.");
@@ -108,67 +108,13 @@ hoge = function() {
         
           loadSolcVersion: function() {
             status("Loading Solc: " + getVersion());
-            BrowserSolc.loadVersion(getVersion(), function(c) {
+            solc.loadVersion(getVersion(), function(c) {
                 compiler = c;
                 console.log("Solc Version Loaded: " + getVersion());
                 status("Solc loaded.  Compiling...");
                 solcCompile(compiler);
             });
-          },
-        
-          CompileUniqueContract: function(solidityCode) {
-            
-            const code = UTF8ToString(solidityCode);
-            console.log("compile address:"+code);
-            const input = {
-              language: 'Solidity',
-              sources: {
-                'Unique.sol': {
-                  content: code
-                }
-              },
-              settings: {
-                outputSelection: {
-                  '*': {
-                    '*': ['abi', 'evm.bytecode']
-                  }
-                }
-              }
-            };
-          
-            try {
-              const output = JSON.parse(compiler.compile(JSON.stringify(input),1));
-              if (output.errors) {
-                const errors = output.errors.map(e => e.formattedMessage).join('\n');
-                console.log('errors:'+errors);
-                SendMessage('ContractCompiler', 'OnCompilationError', errorMessages);
-                return;
-              }
-          
-              const contract = output.contracts['Unique.sol'];
-              const name = Object.keys(contract)[0];
-              const abi = contract[name].abi;
-              const bytecode = contract[name].evm.bytecode.object;
-              const result = JSON.stringify({ abi, bytecode });
-          
-              console.log('result:' + result);
-              SendMessage('ContractCompiler', 'OnContractCompiled', result);
-            } catch (e) {
-              console.log('e:' + e.message);
-              SendMessage('ContractCompiler', 'OnCompilationError', e.message);
-            }
-          },
-        
-          InitOnLoad: function() {
-            if (typeof window !== 'undefined') {
-              window.addEventListener('load', function () {
-                console.log("window.onload triggered from jslib!");
-                // ここに初期化処理など
-              });
-            }
           }
-          
-          
     };
 
       
