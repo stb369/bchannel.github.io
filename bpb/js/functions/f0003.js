@@ -79,7 +79,7 @@ export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
       provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
-      contract = new ethers.Contract(contractAddress, contractABI, signer);
+      contract = new ethers.Contract(arg1, contractABI, signer);
       listenToEvents();
       return contract;
     }
