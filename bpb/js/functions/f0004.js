@@ -8,32 +8,7 @@
 //arg5
 //arg6
   
-export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
-  
-  console.log("f0002 launched");
-  
-  try {
-    const output = JSON.parse(solc.compile(JSON.stringify(input)));
-    if (output.errors) {
-      const errors = output.errors.map(e => e.formattedMessage).join('\n');
-      console.log('errors:'+errors);
-      SendMessage('ContractCompiler', 'OnCompilationError', errorMessages);
-      return;
-    }
 
-    const contract = output.contracts['Unique.sol'];
-    const name = Object.keys(contract)[0];
-    const abi = contract[name].abi;
-    const bytecode = contract[name].evm.bytecode.object;
-    const result = JSON.stringify({ abi, bytecode });
-
-    console.log('result:' + result);
-    SendMessage('ContractCompiler', 'OnContractCompiled', result);
-  } catch (e) {
-    console.log('e:' + e.message);
-    SendMessage('ContractCompiler', 'OnCompilationError', e.message);
-  }
-}
 
 const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ済みアドレスに差し替えてください
 
@@ -88,8 +63,13 @@ const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ�
     ];
 
     let contract, provider;
-
-    async function getContract() {
+  export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
+  
+  console.log("f0004 launched");
+  transferFromTokens(arg1,arg2,arg3,arg4);
+  
+}
+    async function getContract(arg1) {
       if (!window.ethereum) {
         alert("Please install MetaMask");
         return;
@@ -97,7 +77,7 @@ const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ�
       provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
-      contract = new ethers.Contract(contractAddress, contractABI, signer);
+      contract = new ethers.Contract(arg1, contractABI, signer);
       listenToEvents();
       return contract;
     }
@@ -132,11 +112,11 @@ const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ�
       }
     }
 
-    async function transferFromTokens() {
-      const contract = await getContract();
-      const from = document.getElementById("transferFrom").value;
-      const to = document.getElementById("transferTo2").value;
-      const amount = document.getElementById("transferAmount2").value;
+    async function transferFromTokens(arg1,arg2,arg3,arg4) {
+      const contract = await getContract(arg1);
+      const from = arg2;
+      const to = arg3;
+      const amount = areg4;
       try {
         const tx = await contract.transferFrom(from, to, ethers.utils.parseUnits(amount, 18));
         console.log("TransferFrom TX:", tx.hash);
