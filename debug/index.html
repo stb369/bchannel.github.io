@@ -149,6 +149,10 @@
         <!-- ステータス表示 -->
         <div id="status" class="status"></div>
         
+        <div class="form-group">
+            <label for="inputContractAddress">BimboGummyのコントラクトアドレス:</label>
+            <input id="contractAddressInput" type="text" placeholder="例: 0x123456789abcdef" value="0x123456789abcdef">
+        </div>
         <!-- MetaMask接続ボタン -->
         <button id="connectBtn" class="connect-btn">MetaMask に接続</button>
         
@@ -233,6 +237,7 @@
         const connectBtn = document.getElementById('connectBtn');
         const mintBtn = document.getElementById('mintBtn');
         const balanceBtn = document.getElementById('balanceBtn');
+        const contractAddressInput = document.getElementById('contractAddressInput');
         const countInput = document.getElementById('countInput');
         const ethInput = document.getElementById('ethInput');
         const status = document.getElementById('status');
@@ -271,7 +276,7 @@
                 }
 
                 showStatus('MetaMaskに接続中...', 'info');
-                
+                CONTRACT_ADDRESS = contractAddressInput;
                 // アカウントへの接続を要求
                 const accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
