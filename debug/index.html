@@ -335,7 +335,7 @@
                 const ethBalanceFormatted = ethers.formatEther(ethBalance);
                 
                 // トークン残高を取得
-                const tokenBalance = await contract.functions.balanceOf(userAccount);
+                const tokenBalance = await contract.balanceOf(userAccount);
                 
                 balanceInfo.innerHTML = `
                     <strong>ETH残高:</strong> ${parseFloat(ethBalanceFormatted).toFixed(4)} ETH<br>
@@ -360,7 +360,7 @@
                 
                 showStatus(`${count}トークンをミント中...`, 'info');
                 
-                const tx = await contract.functions.Mint(count, {
+                const tx = await contract.Mint(count, {
                     value: ethers.parseEther(ethValue.toString()),
                     gasLimit: 300000
                 });
