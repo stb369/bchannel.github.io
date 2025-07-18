@@ -277,7 +277,7 @@
                 }
 
                 showStatus('MetaMaskに接続中...', 'info');
-                CONTRACT_ADDRESS = contractAddressInput;
+                CONTRACT_ADDRESS = contractAddressInput.value.trim();
                 // アカウントへの接続を要求
                 let accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
