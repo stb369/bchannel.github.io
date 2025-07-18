@@ -176,7 +176,7 @@
 
     <script>
         // 設定
-        const CONTRACT_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
+        let CONTRACT_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
         
         // コントラクトABI
         const CONTRACT_ABI = [
@@ -278,7 +278,7 @@
                 showStatus('MetaMaskに接続中...', 'info');
                 CONTRACT_ADDRESS = contractAddressInput;
                 // アカウントへの接続を要求
-                const accounts = await window.ethereum.request({ 
+                let accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
                 });
                 
