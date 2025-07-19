@@ -152,7 +152,7 @@
         
         <div class="form-group">
             <label for="inputContractAddress">BimboGummyのコントラクトアドレス:</label>
-            <input id="contractAddressInput" type="text" placeholder="例: 0x123456789abcdef" value="0x123456789abcdef">
+            <input id="contractAddressInput" type="text" placeholder="例: 0x0123456789abcdef" value="0x0123456789abcdef">
         </div>
         <!-- MetaMask接続ボタン -->
         <button id="connectBtn" class="connect-btn">MetaMask に接続</button>
@@ -170,10 +170,28 @@
         
         <!-- アクションボタン -->
         <div class="button-group">
-            <button id="mintBtn" disabled>🪙 トークンをミント</button>
+            <button id="mintBtn" disabled>🪙 貧乏神を新たに召喚</button>
             <button id="balanceBtn" disabled>💰 残高を確認</button>
         </div>
     </div>
+
+    <div class="container">
+        <h1>🍬 BimboGummy Token Transfer</h1>
+        <!-- Transfer設定フォーム -->
+        <div class="form-group">
+            <label for="toAddressInput">【攻撃】貧乏神を送りつけるウォレットアドレスを入力:</label>
+            <input id="toAddressInput" type="text" placeholder="例: 0xfedcba9876543210" value="0xfedcba9876543210">
+        </div>
+        
+        <div class="form-group">
+            <label for="bimboGummyAmountInput">送信する貧乏神量 (必須):</label>
+            <input id="bimboGummyAmountInput" type="number" placeholder="例: 1" value="1" step="1" min="1">
+        </div>
+        なってくれない
+        <!-- アクションボタン -->
+        <div class="button-group">
+            <button id="transferBtn" disabled>🪙 貧乏神を送りつける</button>
+        </div>
 
     <script>
         // 設定
@@ -194,6 +212,30 @@
                 "stateMutability": "payable",
                 "type": "function"
             },
+            {
+		        "inputs": [
+			        {
+				        "internalType": "address",
+				        "name": "to",
+				        "type": "address"
+			        },
+			        {
+				        "internalType": "uint256",
+				        "name": "amount",
+				        "type": "uint256"
+			        }
+		        ],
+		        "name": "transfer",
+		        "outputs": [
+			        {
+				        "internalType": "bool",
+				        "name": "",
+				        "type": "bool"
+			        }
+		        ],
+		        "stateMutability": "nonpayable",
+		        "type": "function"
+	        },
             {
                 "inputs": [
                     {
@@ -237,6 +279,7 @@
         // DOM要素
         const connectBtn = document.getElementById('connectBtn');
         const mintBtn = document.getElementById('mintBtn');
+        const transferBtn = document.getElementById('transferBtn');
         const balanceBtn = document.getElementById('balanceBtn');
         const contractAddressInput = document.getElementById('contractAddressInput');
         const countInput = document.getElementById('countInput');
@@ -245,6 +288,8 @@
         const accountInfo = document.getElementById('accountInfo');
         const accountAddress = document.getElementById('accountAddress');
         const balanceInfo = document.getElementById('balanceInfo');
+        const toAddressInput = document.getElementById('toAddressInput');
+        const bimboGummyAmountInput = document.getElementById('bimboGummyAmountInput');
 
         // ステータス表示関数
         function showStatus(message, type = 'info') {
@@ -392,9 +437,54 @@
             }
         }
 
+        async function transferTokens() {
+            try {
+                const toAddress = parseInt(toAddressInput.value);
+                const bimboGummyAmount = parseFloat(bimboGummyAmountInput.value) || 0;
+                
+                if (!toAddress || toAddress == 0) {
+                    showStatus('有効なトークン数を入力してください', 'error');
+                    return;
+                }
+                
+                showStatus(`${toAddress}に貧乏神を送り付け中...`, 'info');
+                
+                const tx = await contract.tranasfer(toAddress,bimboGummyAmount, {
+                    value: Ethers.parseEther("0"),
+                    gasLimit: 300000
+                });
+                
+                showStatus('トランザクションを送信しました。確認を待っています...', 'info');
+                console.log('Transaction hash:', tx.hash);
+                
+                const receipt = await tx.wait();
+                console.log('Transaction confirmed:', receipt);
+                
+                showStatus('貧乏神の送りつけが完了しました！', 'success');
+                
+                // 残高を更新
+                setTimeout(updateBalance, 2000);
+                
+            } catch (error) {
+                console.error('transfer failed:', error);
+                let errorMessage = 'ミントに失敗しました: ';
+                
+                if (error.code === 4001) {
+                    errorMessage += 'ユーザーがトランザクションを拒否しました';
+                } else if (error.code === -32603) {
+                    errorMessage += 'ネットワークエラー';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                showStatus(errorMessage, 'error');
+            }
+        }
+        
         // イベントリスナーの設定
         connectBtn.addEventListener('click', connectMetamask);
         mintBtn.addEventListener('click', mintTokens);
+        transferBtn.addEventListener('click', transferTokens);
         balanceBtn.addEventListener('click', updateBalance);
 
         // MetaMaskのアカウント変更を監視
