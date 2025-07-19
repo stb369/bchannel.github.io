@@ -187,7 +187,6 @@
             <label for="bimboGummyAmountInput">送信する貧乏神量 (必須):</label>
             <input id="bimboGummyAmountInput" type="number" placeholder="例: 1" value="1" step="1" min="1">
         </div>
-        なってくれない
         <!-- アクションボタン -->
         <div class="button-group">
             <button id="transferBtn" disabled>🪙 貧乏神を送りつける</button>
@@ -198,7 +197,7 @@
         let CONTRACT_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
         
         // コントラクトABI
-        const CONTRACT_ABI = [
+        const BIMBOGUMMY_ABI = [
             {
                 "inputs": [
                     {
@@ -270,6 +269,55 @@
             }
         ];
 
+	const RECEIPT_ABI = [
+	{						
+	inputs: [					
+		{				
+			internalType: "uint256",			
+			name: "tokenId",			
+			type: "uint256"			
+		}				
+	],					
+	name: "getParameter",					
+	outputs: [					
+		{				
+			components: [			
+				{		
+					internalType: "uint256",	
+					name: "fromReceipt",	
+					type: "uint256"	
+				},		
+				{		
+					internalType: "uint256",	
+					name: "toReceipt",	
+					type: "uint256"	
+				},		
+				{		
+					internalType: "uint256",	
+					name: "fromBimboGummy",	
+					type: "uint256"	
+				},		
+				{		
+					internalType: "uint256",	
+					name: "toBimboGummy",	
+					type: "uint256"	
+				},		
+				{		
+					internalType: "uint256",	
+					name: "amountBimboGummy",	
+					type: "uint256"	
+				}		
+			],			
+			internalType: "struct Receipt.Parameter",			
+			name: "",			
+			type: "tuple"			
+		}				
+	],					
+	stateMutability: "view",					
+	type: "function"					
+	}					
+	];
+
         // グローバル変数
         let provider;
         let signer;
@@ -333,7 +381,7 @@
                 // プロバイダーとサイナーを設定
                 provider = new ethers.BrowserProvider(window.ethereum);
                 signer = await provider.getSigner();
-                contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+                contract = new ethers.Contract(CONTRACT_ADDRESS, BIMBOGUMMY_ABI, signer);
                 
                 // UI更新
                 updateUI();
@@ -353,6 +401,7 @@
                 connectBtn.textContent = '接続済み';
                 connectBtn.disabled = true;
                 mintBtn.disabled = false;
+                transferBtn.disabled = false;
                 balanceBtn.disabled = false;
                 
                 accountInfo.style.display = 'block';
@@ -364,6 +413,7 @@
                 connectBtn.textContent = 'MetaMask に接続';
                 connectBtn.disabled = false;
                 mintBtn.disabled = true;
+                transferBtn.disabled = true;
                 balanceBtn.disabled = true;
                 
                 accountInfo.style.display = 'none';
