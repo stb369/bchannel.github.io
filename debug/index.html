@@ -513,7 +513,7 @@
                 showStatus(`${toAddress}に貧乏神を送り付け中...`, 'info');
                 
                 const tx = await contract.transfer(toAddress,bimboGummyAmount, {
-                    value: Ethers.parseEther("0"),
+                    value: ethers.parseEther("0"),
                     gasLimit: 300000
                 });
                 
