@@ -502,8 +502,8 @@
 
         async function transferTokens() {
             try {
-                const toAddress = parseInt(toAddressInput.value);
-                const bimboGummyAmount = parseFloat(bimboGummyAmountInput.value) || 0;
+                const toAddress = toAddressInput.value.trim();
+                const bimboGummyAmount = parseInt(bimboGummyAmountInput.value) || 0;
                 
                 if (!toAddress || toAddress == 0) {
                     showStatus('有効なトークン数を入力してください', 'error');
@@ -530,7 +530,7 @@
                 
             } catch (error) {
                 console.error('transfer failed:', error);
-                let errorMessage = 'ミントに失敗しました: ';
+                let errorMessage = '送り付けに失敗しました: ';
                 
                 if (error.code === 4001) {
                     errorMessage += 'ユーザーがトランザクションを拒否しました';
