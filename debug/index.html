@@ -358,7 +358,7 @@
                     return;
                 }
                 
-                showStatus(`${count}トークンをミント中...`, 'info');
+                showStatus(`${count}トークンをミント中... ; contract:${contract} , address:${CONTRACT_ADDRESS}`, 'info');
                 
                 const tx = await contract.Mint(count, {
                     value: ethers.parseEther(ethValue.toString()),
