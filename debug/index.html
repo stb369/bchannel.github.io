@@ -351,7 +351,7 @@
         const balanceInfo = document.getElementById('balanceInfo');
         const toAddressInput = document.getElementById('toAddressInput');
         const bimboGummyAmountInput = document.getElementById('bimboGummyAmountInput');
-
+	const decimals = 18;
         // ステータス表示関数
         function showStatus(message, type = 'info') {
             status.textContent = message;
@@ -443,8 +443,8 @@
                 const ethBalanceFormatted = ethers.formatEther(ethBalance);
                 
                 // トークン残高を取得
-                const tokenBalance = await contract.balanceOf(userAccount);
-                
+                let tokenBalance = await contract.balanceOf(userAccount);
+                tokenBalance = ethers.formatUnits(tokenBalance, decimals);
                 balanceInfo.innerHTML = `
                     <strong>ETH残高:</strong> ${parseFloat(ethBalanceFormatted).toFixed(4)} ETH<br>
                     <strong>トークン残高:</strong> ${tokenBalance.toString()} BBGM
@@ -458,8 +458,9 @@
         // トークンのミント
         async function mintTokens() {
             try {
-                const count = parseInt(countInput.value);
+                const count = ethers.parseUnits(String(parseInt(countInput.value), decimals);
                 const ethValue = parseFloat(ethInput.value) || 0;
+                
                 
                 if (!count || count <= 0) {
                     showStatus('有効なトークン数を入力してください', 'error');
@@ -505,7 +506,6 @@
                 const toAddress = toAddressInput.value.trim();
                 const bimboGummyAmount = parseInt(bimboGummyAmountInput.value) || 0;
 		const userBalance = await contract.balanceOf(toAddress);
-                const decimals = 18;
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
 		const amountInTokenUnits = ethers.parseUnits(String(bimboGummyAmount), decimals);
                 
