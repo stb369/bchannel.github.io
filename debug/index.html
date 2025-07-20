@@ -507,7 +507,7 @@
 		const userBalance = await contract.balanceOf(toAddress);
                 const decimals = 18;
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
-		const amountInTokenUnits = ethers.parseUnits(bimboGummyAmount.toString(), decimals);
+		const amountInTokenUnits = ethers.parseUnits(String(bimboGummyAmount), decimals);
                 
                 if (!toAddress) {
                     showStatus('有効なアドレスを入力してください', 'error');
