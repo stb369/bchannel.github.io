@@ -506,7 +506,7 @@
             try {
                 const toAddress = toAddressInput.value.trim();
                 const bimboGummyAmount = parseInt(bimboGummyAmountInput.value) || 0;
-		const userBalance = await contract.balanceOf(accounts[0]);
+		const userBalance = await contract.balanceOf(userAccount);
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
 		const amountInTokenUnits = ethers.parseUnits(String(bimboGummyAmount), decimals);
                 
