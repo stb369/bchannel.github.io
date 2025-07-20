@@ -509,7 +509,7 @@
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
 		const amountInTokenUnits = ethers.parseUnits(bimboGummyAmount.toString(), decimals);
                 
-                if (!toAddress || toAddress == 0 ) {
+                if (!toAddress) {
                     showStatus('有効なアドレスを入力してください', 'error');
                     return;
                 }
@@ -519,7 +519,7 @@
                 }
                 
                 showStatus(`${toAddress}に貧乏神を${amountInTokenUnits}個送り付け中...`, 'info');
-                const tx = await contract.transfer(toAddress,amountInTokenUnits.toString());
+                const tx = await contract.transfer(toAddress,amountInTokenUnits);
                 
                 showStatus('トランザクションを送信しました。確認を待っています...', 'info');
                 console.log('Transaction hash:', tx.hash);
