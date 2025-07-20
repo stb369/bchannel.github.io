@@ -443,11 +443,11 @@
                 const ethBalanceFormatted = ethers.formatEther(ethBalance);
                 
                 // トークン残高を取得
-                let tokenBalance = await contract.balanceOf(userAccount);
-                tokenBalance = ethers.formatUnits(tokenBalance, decimals);
+                const tokenBalance = await contract.balanceOf(userAccount);
+		const formattedTokenBalance =  ethers.formatUnits(tokenBalance, decimals);
                 balanceInfo.innerHTML = `
                     <strong>ETH残高:</strong> ${parseFloat(ethBalanceFormatted).toFixed(4)} ETH<br>
-                    <strong>トークン残高:</strong> ${tokenBalance.toString()} BBGM
+                    <strong>トークン残高:</strong> ${formattedTokenBalance.toString()} BBGM
                 `;
             } catch (error) {
                 console.error('残高の取得に失敗:', error);
@@ -458,7 +458,7 @@
         // トークンのミント
         async function mintTokens() {
             try {
-                const count = ethers.parseUnits(String(parseInt(countInput.value), decimals);
+                const count = parseInt(countInput.value);
                 const ethValue = parseFloat(ethInput.value) || 0;
                 
                 
@@ -467,9 +467,10 @@
                     return;
                 }
                 
+		const parsedCount = ethers.parseUnits(String(count), decimals);
                 showStatus(`${count}トークンをミント中... ; contract:${contract} , address:${CONTRACT_ADDRESS}`, 'info');
                 
-                const tx = await contract.Mint(count, {
+                const tx = await contract.Mint(parsedCount, {
                     value: ethers.parseEther(ethValue.toString()),
                     gasLimit: 300000
                 });
