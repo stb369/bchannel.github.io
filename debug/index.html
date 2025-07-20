@@ -196,7 +196,7 @@
         </div>
         
         <div class="form-group">
-            <label for="bimboGummyAmountInput">送信する貧乏神量 (必須):</label>
+            <label for="bimboGummyAmountInput">送信する貧乏神の量:</label>
             <input id="bimboGummyAmountInput" type="number" placeholder="例: 1" value="1" step="1" min="1">
         </div>
         <!-- アクションボタン -->
@@ -506,7 +506,7 @@
             try {
                 const toAddress = toAddressInput.value.trim();
                 const bimboGummyAmount = parseInt(bimboGummyAmountInput.value) || 0;
-		const userBalance = await contract.balanceOf(toAddress);
+		const userBalance = await contract.balanceOf(accounts[0]);
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
 		const amountInTokenUnits = ethers.parseUnits(String(bimboGummyAmount), decimals);
                 
