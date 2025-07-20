@@ -505,7 +505,7 @@
                 const decimals = await contract.decimals();
                 const toAddress = toAddressInput.value.trim();
                 const bimboGummyAmount = parseInt(bimboGummyAmountInput.value) || 0;
-		const userBalance = await contract.balanceOf(userAddress);
+		const userBalance = await contract.balanceOf(toAddress);
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
 		const amountInTokenUnits = ethers.parseUnits(bimboGummyAmount, decimals);
                 
@@ -514,7 +514,7 @@
                     return;
                 }
 		if (userBalance < amountInTokenUnits) {
-                    showStatus(`トークン残高不足です。現在の残高: ${formattedUserBalance} ${symbol}, 送金しようとしている量: ${amount} ${symbol}`, 'error');
+                    showStatus(`トークン残高不足です。現在の残高: ${formattedUserBalance}, 送金しようとしている量: ${amount}`, 'error');
                     return;
                 }
                 
