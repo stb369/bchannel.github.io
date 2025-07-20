@@ -518,7 +518,7 @@
                     return;
                 }
                 
-                showStatus(`${toAddress}に貧乏神を送り付け中...`, 'info');
+                showStatus(`${typeof toAddress}:${toAddress}に貧乏神を${typeof amountInTokenUnits}:${amountInTokenUnits.toString()}個送り付け中...`, 'info');
                 const tx = await contract.transfer(toAddress,amountInTokenUnits);
                 
                 showStatus('トランザクションを送信しました。確認を待っています...', 'info');
