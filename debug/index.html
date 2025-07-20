@@ -279,21 +279,7 @@
                 ],
                 "name": "MintBimboGummy",
                 "type": "event"
-            },
-	    {
-		inputs: [],
-		name: "decimals",
-		outputs: [
-		    {
-			internalType: "uint8",
-			name: "",
-			type: "uint8"
-		    }
-	    	]
-		    
-    		"stateMutability": "view",
-    		"type": "function"
-	    }
+            }
         ];
 
 	const RECEIPT_ABI = [
@@ -516,14 +502,14 @@
 
         async function transferTokens() {
             try {
-                const decimals = await contract.decimals();
                 const toAddress = toAddressInput.value.trim();
                 const bimboGummyAmount = parseInt(bimboGummyAmountInput.value) || 0;
 		const userBalance = await contract.balanceOf(toAddress);
+                const decimals = 18;
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
 		const amountInTokenUnits = ethers.parseUnits(bimboGummyAmount, decimals);
                 
-                if (!toAddress || toAddress == 0) {
+                if (!toAddress || toAddress == 0 ) {
                     showStatus('有効なトークン数を入力してください', 'error');
                     return;
                 }
@@ -533,7 +519,6 @@
                 }
                 
                 showStatus(`${toAddress}に貧乏神を送り付け中...`, 'info');
-                
                 const tx = await contract.transfer(toAddress,amountInTokenUnits, {
                     value: ethers.parseEther("0"),
                     gasLimit: 300000
