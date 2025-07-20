@@ -202,13 +202,14 @@
         <!-- アクションボタン -->
         <div class="button-group">
             <button id="transferBtn" disabled>🪙 貧乏神を送りつける</button>
+            <button id="balanceBtn" disabled>💰 レシート所持量の確認</button>
         </div>
     </div>
     </div>
     <script>
         // 設定
-        let CONTRACT_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
-        
+        let BIMBOGUMMY_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
+        let RECEIPT_ADDRESS = "0x...";
         // コントラクトABI
         const BIMBOGUMMY_ABI = [
             {
@@ -279,57 +280,53 @@
                 ],
                 "name": "MintBimboGummy",
                 "type": "event"
-            }
+            },
+	    {
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "receiptBalanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "receiptTokenOfOwnerByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
         ];
 
-	const RECEIPT_ABI = [
-	{						
-	inputs: [					
-		{				
-			internalType: "uint256",			
-			name: "tokenId",			
-			type: "uint256"			
-		}				
-	],					
-	name: "getParameter",					
-	outputs: [					
-		{				
-			components: [			
-				{		
-					internalType: "uint256",	
-					name: "fromReceipt",	
-					type: "uint256"	
-				},		
-				{		
-					internalType: "uint256",	
-					name: "toReceipt",	
-					type: "uint256"	
-				},		
-				{		
-					internalType: "uint256",	
-					name: "fromBimboGummy",	
-					type: "uint256"	
-				},		
-				{		
-					internalType: "uint256",	
-					name: "toBimboGummy",	
-					type: "uint256"	
-				},		
-				{		
-					internalType: "uint256",	
-					name: "amountBimboGummy",	
-					type: "uint256"	
-				}		
-			],			
-			internalType: "struct Receipt.Parameter",			
-			name: "",			
-			type: "tuple"			
-		}				
-	],					
-	stateMutability: "view",					
-	type: "function"					
-	}					
-	];
+	
 
         // グローバル変数
         let provider;
@@ -383,7 +380,7 @@
                 }
 
                 showStatus('MetaMaskに接続中...', 'info');
-                CONTRACT_ADDRESS = contractAddressInput.value.trim();
+                BIMBOGUMMY_ADDRESS = contractAddressInput.value.trim();
                 // アカウントへの接続を要求
                 let accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
@@ -394,7 +391,7 @@
                 // プロバイダーとサイナーを設定
                 provider = new ethers.BrowserProvider(window.ethereum);
                 signer = await provider.getSigner();
-                contract = new ethers.Contract(CONTRACT_ADDRESS, BIMBOGUMMY_ABI, signer);
+                contract = new ethers.Contract(BIMBOGUMMY_ADDRESS, BIMBOGUMMY_ABI, signer);
                 
                 // UI更新
                 updateUI();
@@ -445,9 +442,12 @@
                 // トークン残高を取得
                 const tokenBalance = await contract.balanceOf(userAccount);
 		const formattedTokenBalance =  ethers.formatUnits(tokenBalance, decimals);
+                const receiptBalance = await contract.receiptBalanceOf(userAccount);
+		
                 balanceInfo.innerHTML = `
                     <strong>ETH残高:</strong> ${parseFloat(ethBalanceFormatted).toFixed(4)} ETH<br>
                     <strong>トークン残高:</strong> ${formattedTokenBalance.toString()} BBGM
+		    <strong>レシート所持量:</strong> ${receiptBalance.toString()} RCPT
                 `;
             } catch (error) {
                 console.error('残高の取得に失敗:', error);
@@ -468,7 +468,7 @@
                 }
                 
 		const parsedCount = ethers.parseUnits(String(count), decimals);
-                showStatus(`${count}トークンをミント中... ; contract:${contract} , address:${CONTRACT_ADDRESS}`, 'info');
+                showStatus(`${count}トークンをミント中... ; contract:${contract} , address:${BIMBOGUMMY_ADDRESS}`, 'info');
                 
                 const tx = await contract.Mint(parsedCount, {
                     value: ethers.parseEther(ethValue.toString()),
@@ -580,7 +580,7 @@
 
         // 初期化
         document.addEventListener('DOMContentLoaded', () => {
-            if (CONTRACT_ADDRESS === "0x...") {
+            if (BIMBOGUMMY_ADDRESS === "0x...") {
                 showStatus('コントラクトアドレスが設定されていません', 'error');
             }
         });
