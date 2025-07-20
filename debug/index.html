@@ -507,22 +507,19 @@
 		const userBalance = await contract.balanceOf(toAddress);
                 const decimals = 18;
                 const formattedUserBalance = ethers.formatUnits(userBalance, decimals);
-		const amountInTokenUnits = ethers.parseUnits(bimboGummyAmount, decimals);
+		const amountInTokenUnits = ethers.parseUnits(bimboGummyAmount.toString(), decimals);
                 
                 if (!toAddress || toAddress == 0 ) {
-                    showStatus('有効なトークン数を入力してください', 'error');
+                    showStatus('有効なアドレスを入力してください', 'error');
                     return;
                 }
 		if (userBalance < amountInTokenUnits) {
-                    showStatus(`トークン残高不足です。現在の残高: ${formattedUserBalance}, 送金しようとしている量: ${amount}`, 'error');
+                    showStatus(`トークン残高不足です。現在の残高: ${formattedUserBalance}, 送金しようとしている量: ${bimboGummyAmount}`, 'error');
                     return;
                 }
                 
                 showStatus(`${toAddress}に貧乏神を送り付け中...`, 'info');
-                const tx = await contract.transfer(toAddress,amountInTokenUnits, {
-                    value: ethers.parseEther("0"),
-                    gasLimit: 300000
-                });
+                const tx = await contract.transfer(toAddress,amountInTokenUnits);
                 
                 showStatus('トランザクションを送信しました。確認を待っています...', 'info');
                 console.log('Transaction hash:', tx.hash);
