@@ -165,6 +165,8 @@
         <div class="form-group">
             <label for="inputContractAddress">BimboGummyのコントラクトアドレス:</label>
             <input id="contractAddressInput" type="text" placeholder="例: 0x0123456789abcdef" value="0x0123456789abcdef">
+            <label for="inputContractAddress">Rankingのコントラクトアドレス:</label>
+            <input id="rankingAddressInput" type="text" placeholder="例: 0x0123456789abcdef" value="0x0123456789abcdef">
         </div>
         <!-- MetaMask接続ボタン -->
         <button id="connectBtn" class="connect-btn">MetaMask に接続</button>
@@ -204,128 +206,26 @@
             <button id="transferBtn" disabled>🪙 貧乏神を送りつける</button>
         </div>
     </div>
+	<div class="container">
+        <h1>🍬 Rank Checker</h1>
+        <!-- Transfer設定フォーム -->
+        <div class="button-group">
+            <button id="checkRankBtn" disabled> ランクを確認する</button>
+        </div>
+		
+		<p id="rankText">？</p>
+        
+    </div>
     </div>
     <script>
         // 設定
         let BIMBOGUMMY_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
         let RECEIPT_ADDRESS = "0x...";
+		let RANKING_ADDRESS = "0x...";
         // コントラクトABI
-        const BIMBOGUMMY_ABI = [
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "count",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "Mint",
-                "outputs": [],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-		        "inputs": [
-			        {
-				        "internalType": "address",
-				        "name": "to",
-				        "type": "address"
-			        },
-			        {
-				        "internalType": "uint256",
-				        "name": "amount",
-				        "type": "uint256"
-			        }
-		        ],
-		        "name": "transfer",
-		        "outputs": [
-			        {
-				        "internalType": "bool",
-				        "name": "",
-				        "type": "bool"
-			        }
-		        ],
-		        "stateMutability": "nonpayable",
-		        "type": "function"
-	        },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "account",
-                        "type": "address"
-                    }
-                ],
-                "name": "balanceOf",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "count",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "MintBimboGummy",
-                "type": "event"
-            },
-	    {
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			}
-		],
-		"name": "receiptBalanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "receiptTokenOfOwnerByIndex",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-        ];
-
-	
+        import BIMBOGUMMY_ABI from 'abi/a0001.json';
+		import RECEIPT_ABI from 'abi/a0002.json';
+		import RANKING_ABI from 'abi/a0003.json';
 
         // グローバル変数
         let provider;
@@ -338,7 +238,9 @@
         const mintBtn = document.getElementById('mintBtn');
         const transferBtn = document.getElementById('transferBtn');
         const balanceBtn = document.getElementById('balanceBtn');
+        const checkRankBtn = document.getElementById('checkRankBtn');
         const contractAddressInput = document.getElementById('contractAddressInput');
+        const rankingAddressInput = document.getElementById('rankingAddressInput');
         const countInput = document.getElementById('countInput');
         const ethInput = document.getElementById('ethInput');
         const status = document.getElementById('status');
@@ -347,6 +249,7 @@
         const balanceInfo = document.getElementById('balanceInfo');
         const toAddressInput = document.getElementById('toAddressInput');
         const bimboGummyAmountInput = document.getElementById('bimboGummyAmountInput');
+        const rankText = document.getElementById('rankText');
 	const decimals = 18;
         // ステータス表示関数
         function showStatus(message, type = 'info') {
@@ -380,6 +283,7 @@
 
                 showStatus('MetaMaskに接続中...', 'info');
                 BIMBOGUMMY_ADDRESS = contractAddressInput.value.trim();
+                RANKING_ADDRESS = rankingAddressInput.value.trim();
                 // アカウントへの接続を要求
                 let accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
@@ -391,7 +295,7 @@
                 provider = new ethers.BrowserProvider(window.ethereum);
                 signer = await provider.getSigner();
                 contract = new ethers.Contract(BIMBOGUMMY_ADDRESS, BIMBOGUMMY_ABI, signer);
-                
+                ranking = new ethers.Contract(RANKING_ADDRESS,RANKING_ABI,signer);
                 // UI更新
                 updateUI();
                 showStatus('MetaMaskに接続しました！', 'success');
@@ -412,6 +316,7 @@
                 mintBtn.disabled = false;
                 transferBtn.disabled = false;
                 balanceBtn.disabled = false;
+                checkRankBtn.disabled = false;
                 
                 accountInfo.style.display = 'block';
                 accountAddress.textContent = userAccount;
@@ -424,11 +329,38 @@
                 mintBtn.disabled = true;
                 transferBtn.disabled = true;
                 balanceBtn.disabled = true;
+                checkRankBtn.disabled = true;
                 
                 accountInfo.style.display = 'none';
             }
         }
+		async function checkRank(){
+        	showStatus(`ランクを取得中... ; contract:${ranking} , address:${RANKING_ADDRESS}`, 'info');
+			const rankNumber = await ranking.getPlayerRank(userAccount);
+			let rankString = 'a';
+			switch (式) {
+  				case 0:
+    			rankString = 'D';
+    			break;
+  				case 1:
+    			rankString = 'C';
+    			break;
+  				case 2:
+    			rankString = 'B';
+    			break;
+  				case 3:
+    			rankString = 'A';
+    			break;
+  				case 4:
+    			rankString = 'S';
+    			break;
 
+  				default:
+    			処理;
+			}
+			rankText.textContent = rankString;
+		
+		}
         // 残高の更新
         async function updateBalance() {
             try {
@@ -553,6 +485,7 @@
         mintBtn.addEventListener('click', mintTokens);
         transferBtn.addEventListener('click', transferTokens);
         balanceBtn.addEventListener('click', updateBalance);
+        checkRankBtn.addEventListener('click', checkRank);
 
         // MetaMaskのアカウント変更を監視
         if (window.ethereum) {
@@ -586,3 +519,4 @@
     </script>
 </body>
 </html>
+
