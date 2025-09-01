@@ -223,10 +223,9 @@
         let RECEIPT_ADDRESS = "0x...";
 		let RANKING_ADDRESS = "0x...";
         // コントラクトABI
-        import BIMBOGUMMY_ABI from 'abi/a0001.json';
-		import RECEIPT_ABI from 'abi/a0002.json';
-		import RANKING_ABI from 'abi/a0003.json';
-
+		const BIMBOGUMMY_ABI = await fetch('abi/a0001.json');
+		const RECEIPT_ABI = await fetch('abi/a0002.json');
+		const RANKING_ABI = await fetch('abi/a0003.json');
         // グローバル変数
         let provider;
         let signer;
@@ -519,4 +518,5 @@
     </script>
 </body>
 </html>
+
 
