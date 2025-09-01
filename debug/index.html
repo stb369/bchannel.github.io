@@ -342,19 +342,19 @@
 			const rankNumber = await ranking.getPlayerRank(userAccount);
 			let rankString = rankNumber.toString();
 			switch (rankNumber) {
-  				case 0:
+  				case '0':
     			rankString += ':D';
     			break;
-  				case 1:
+  				case '1':
     			rankString += ':C';
     			break;
-  				case 2:
+  				case '2':
     			rankString += ':B';
     			break;
-  				case 3:
+  				case '3':
     			rankString += ':A';
     			break;
-  				case 4:
+  				case '4':
     			rankString += ':S';
     			break;
 
@@ -523,6 +523,7 @@
     </script>
 </body>
 </html>
+
 
 
 
