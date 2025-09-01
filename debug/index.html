@@ -338,6 +338,7 @@
         }
 		async function checkRank(){
         	showStatus(`ランクを取得中... ; contract:${ranking} , address:${RANKING_ADDRESS}`, 'info');
+			console.log(ranking.target);
 			const rankNumber = await ranking.getPlayerRank(userAccount);
 			let rankString = rankNumber.toString();
 			switch (rankNumber) {
@@ -522,6 +523,7 @@
     </script>
 </body>
 </html>
+
 
 
 
