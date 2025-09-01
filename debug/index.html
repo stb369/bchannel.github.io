@@ -406,7 +406,7 @@
                 showStatus(`${count}トークンをミント中... ; contract:${contract} , address:${BIMBOGUMMY_ADDRESS}`, 'info');
                 console.log('parsedCount : '+ parsedCount.toString());
                 const tx = await contract.Mint(parsedCount, {
-                    value: ethers.parseEther(parsedCount.toString()),
+                    value: ethers.parseEther(count.toString()),
                     gasLimit: 300000
                 });
                 
@@ -532,6 +532,7 @@
     </script>
 </body>
 </html>
+
 
 
 
