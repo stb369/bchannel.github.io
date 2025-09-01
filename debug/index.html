@@ -339,26 +339,26 @@
 		async function checkRank(){
         	showStatus(`ランクを取得中... ; contract:${ranking} , address:${RANKING_ADDRESS}`, 'info');
 			const rankNumber = await ranking.getPlayerRank(userAccount);
-			let rankString = 'a';
+			let rankString = rankNumber.toString();
 			switch (rankNumber) {
   				case 0:
-    			rankString = 'D';
+    			rankString += ':D';
     			break;
   				case 1:
-    			rankString = 'C';
+    			rankString += ':C';
     			break;
   				case 2:
-    			rankString = 'B';
+    			rankString += ':B';
     			break;
   				case 3:
-    			rankString = 'A';
+    			rankString += ':A';
     			break;
   				case 4:
-    			rankString = 'S';
+    			rankString += ':S';
     			break;
 
   				default:
-    			rankString = '例外';
+    			rankString += ':例外';
     			break;
 			}
 			rankText.textContent = rankString;
@@ -522,6 +522,7 @@
     </script>
 </body>
 </html>
+
 
 
 
