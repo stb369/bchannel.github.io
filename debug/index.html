@@ -406,7 +406,7 @@
                 showStatus(`${count}トークンをミント中... ; contract:${contract} , address:${BIMBOGUMMY_ADDRESS}`, 'info');
                 
                 const tx = await contract.Mint(parsedCount, {
-                    value: ethers.parseEther(ethValue.toString()),
+                    value: ethers.parseEther(parsedCount.toString()),
                     gasLimit: 300000
                 });
                 
@@ -436,6 +436,15 @@
                 showStatus(errorMessage, 'error');
             }
         }
+
+		async function ETHtoWEI(value) {//10^18で掛ける
+		
+		
+		}
+
+		async function WEItoETH(value) {//10^18で割る
+			return value * 10^18;
+		}
 
         async function transferTokens() {
             try {
@@ -523,6 +532,7 @@
     </script>
 </body>
 </html>
+
 
 
 
