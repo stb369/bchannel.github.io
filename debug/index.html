@@ -340,7 +340,7 @@
         	showStatus(`ランクを取得中... ; contract:${ranking} , address:${RANKING_ADDRESS}`, 'info');
 			const rankNumber = await ranking.getPlayerRank(userAccount);
 			let rankString = 'a';
-			switch (式) {
+			switch (rankNumber) {
   				case 0:
     			rankString = 'D';
     			break;
@@ -521,6 +521,7 @@
     </script>
 </body>
 </html>
+
 
 
 
