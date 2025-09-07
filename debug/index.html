@@ -406,9 +406,9 @@
 		}
 		
 		const ROOM_NAME = "main";
-		const ROOM_ID = ethers.id(ROOM_NAME); // keccak256("main")
 		
 		async function postChat(){
+			const ROOM_ID = ethers.id(ROOM_NAME); // keccak256("main")
         	showStatus(`チャットを投稿中... ; contract:${onChainChat} , address:${ONCHAINCHAT_ADDRESS}`, 'info');
 			console.log(onChainChat.target);
 			const message = chatTextInput.value;
@@ -626,6 +626,7 @@ function displayMessages(messages) {
     </script>
 </body>
 </html>
+
 
 
 
