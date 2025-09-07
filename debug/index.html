@@ -421,6 +421,8 @@
 
 		// 履歴読み込み
 async function fetchLogs() {
+	
+	const ROOM_ID = ethers.id(ROOM_NAME); // keccak256("main")
     showStatus(`チャットを取得中... ; contract:${onChainChat} , address:${ONCHAINCHAT_ADDRESS}`, 'info');
     if (!provider) return;
 
@@ -629,6 +631,7 @@ function displayMessages(messages) {
     </script>
 </body>
 </html>
+
 
 
 
