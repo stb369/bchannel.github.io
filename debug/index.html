@@ -244,10 +244,7 @@
         <!-- アクションボタン -->
         <div class="button-group">
             <button id="getChatLogBtn" disabled>🪙 チャットログを取得</button>
-        </div>
-		
-		<p id="rankText">？</p>
-        
+		</div>
     </div>
     </div>
     <script>
@@ -272,7 +269,7 @@
         const transferBtn = document.getElementById('transferBtn');
         const balanceBtn = document.getElementById('balanceBtn');
         const checkRankBtn = document.getElementById('checkRankBtn');
-        const postChatBtn = document.getElementById('postChatLogBtn');
+        const postChatBtn = document.getElementById('postChatBtn');
         const getChatLogBtn = document.getElementById('getChatLogBtn');
         const contractAddressInput = document.getElementById('contractAddressInput');
         const rankingAddressInput = document.getElementById('rankingAddressInput');
@@ -473,7 +470,7 @@ function displayMessages(messages) {
                 
                 // トークン残高を取得
                 const tokenBalance = await contract.balanceOf(userAccount);
-		const formattedTokenBalance =  ethers.formatUnits(tokenBalance, decimals);
+				const formattedTokenBalance =  ethers.formatUnits(tokenBalance, decimals);
                 const receiptBalance = await contract.receiptBalanceOf(userAccount);
 		
                 balanceInfo.innerHTML = `
@@ -631,6 +628,7 @@ function displayMessages(messages) {
     </script>
 </body>
 </html>
+
 
 
 
