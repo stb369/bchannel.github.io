@@ -458,7 +458,7 @@ function displayMessages(messages) {
     div.innerHTML = "";
     messages.sort((a,b)=>a.timestamp-b.timestamp).forEach(m => {
         const d = new Date(m.timestamp * 1000);
-        div.innerHTML += `<b>${m.nickname}</b> (${m.sender.slice(0,6)}…${m.sender.slice(-4)})<br>${m.content}<br><small>${d.toLocaleString()}</small><hr>`;
+        div.innerHTML += `<b>${m.nickname}</b><small>${d.toLocaleString()}</small><br>${m.content}<br><hr>`;
     });
 }
 		
@@ -631,6 +631,7 @@ function displayMessages(messages) {
     </script>
 </body>
 </html>
+
 
 
 
