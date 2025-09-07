@@ -1,4 +1,4 @@
-const RANKING_ABI = [
+const ONCHAINCHAT_ABI = [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
