@@ -149,6 +149,7 @@
 	<script defer src="abi/a0001.js"></script>
 	<script defer src="abi/a0002.js"></script>
 	<script defer src="abi/a0003.js"></script>
+	<script defer src="abi/a0004.js"></script>
 </head>
 <body>
     <div class=wrapper>
@@ -170,6 +171,8 @@
             <input id="contractAddressInput" type="text" placeholder="例: 0x0123456789abcdef" value="0x0123456789abcdef">
             <label for="inputContractAddress">Rankingのコントラクトアドレス:</label>
             <input id="rankingAddressInput" type="text" placeholder="例: 0x0123456789abcdef" value="0x0123456789abcdef">
+            <label for="inputContractAddress">OnChainChatのコントラクトアドレス:</label>
+            <input id="onChainChatAddressInput" type="text" placeholder="例: 0x0123456789abcdef" value="0x0123456789abcdef">
         </div>
         <!-- MetaMask接続ボタン -->
         <button id="connectBtn" class="connect-btn">MetaMask に接続</button>
@@ -219,12 +222,40 @@
 		<p id="rankText">？</p>
         
     </div>
+	<div class="container">
+        <h1>💬onChainChat💬</h1>
+		<div class="form-group">
+            <label for="chatNameLabel">投稿するチャットの名前:</label>
+            <input id="chatNameInput" type="text" placeholder="名前を入力…" value="名前を入力">
+        </div>
+		<div class="form-group">
+            <label for="chatTextLabel">投稿するチャット本文:</label>
+            <input id="chatTextInput" type="text" placeholder="本文を入力…" value="本文を入力…">
+        </div>
+        <!-- アクションボタン -->
+        <div class="button-group">
+            <button id="postChatBtn" disabled>🪙 チャットを投稿</button>
+        </div>
+		
+		<div class="form-group">
+            <label for="chatTextLabel">チャットログを表示:</label>
+            <label for="chatLogText">…</label>
+        </div>
+        <!-- アクションボタン -->
+        <div class="button-group">
+            <button id="getChatLogBtn" disabled>🪙 チャットログを取得</button>
+        </div>
+		
+		<p id="rankText">？</p>
+        
+    </div>
     </div>
     <script>
         // 設定
         let BIMBOGUMMY_ADDRESS = "0x..."; // あなたのコントラクトアドレスに変更してください
         let RECEIPT_ADDRESS = "0x...";
 		let RANKING_ADDRESS = "0x...";
+		let ONCHAINCHAT_ADDRESS = "0x...";
         // コントラクトABI
 		//const BIMBOGUMMY_ABI = await fetch('abi/a0001.json');
 		//const RECEIPT_ABI = await fetch('abi/a0002.json');
@@ -241,8 +272,11 @@
         const transferBtn = document.getElementById('transferBtn');
         const balanceBtn = document.getElementById('balanceBtn');
         const checkRankBtn = document.getElementById('checkRankBtn');
+        const postChatBtn = document.getElementById('postChatLogBtn');
+        const getChatLogBtn = document.getElementById('getChatLogBtn');
         const contractAddressInput = document.getElementById('contractAddressInput');
         const rankingAddressInput = document.getElementById('rankingAddressInput');
+        const onChainChatAddressInput = document.getElementById('onChainChatAddressInput');
         const countInput = document.getElementById('countInput');
         const ethInput = document.getElementById('ethInput');
         const status = document.getElementById('status');
@@ -252,6 +286,9 @@
         const toAddressInput = document.getElementById('toAddressInput');
         const bimboGummyAmountInput = document.getElementById('bimboGummyAmountInput');
         const rankText = document.getElementById('rankText');
+        const chatLogText = document.getElementById('chatLogText');
+        const chatNameInput = document.getElementById('chatNameInput');
+        const chatTextInput = document.getElementById('chatTextInput');
 	const decimals = 18;
         // ステータス表示関数
         function showStatus(message, type = 'info') {
@@ -286,6 +323,7 @@
                 showStatus('MetaMaskに接続中...', 'info');
                 BIMBOGUMMY_ADDRESS = contractAddressInput.value.trim();
                 RANKING_ADDRESS = rankingAddressInput.value.trim();
+                ONCHAINCHAT_ADDRESS = onChainChatAddressInput.value.trim();
                 // アカウントへの接続を要求
                 let accounts = await window.ethereum.request({ 
                     method: 'eth_requestAccounts' 
@@ -298,6 +336,7 @@
                 signer = await provider.getSigner();
                 contract = new ethers.Contract(BIMBOGUMMY_ADDRESS, BIMBOGUMMY_ABI, signer);
                 ranking = new ethers.Contract(RANKING_ADDRESS,RANKING_ABI,signer);
+                onChainChat = new ethers.Contract(ONCHAINCHAT_ADDRESS,ONCHAINCHAT_ABI,signer);
                 // UI更新
                 updateUI();
                 showStatus('MetaMaskに接続しました！', 'success');
@@ -365,6 +404,59 @@
 			rankText.textContent = rankString;
 		
 		}
+		
+		const ROOM_NAME = "main";
+		const ROOM_ID = ethers.id(ROOM_NAME); // keccak256("main")
+		
+		async function postChat(){
+        	showStatus(`チャットを投稿中... ; contract:${onChainChat} , address:${ONCHAINCHAT_ADDRESS}`, 'info');
+			console.log(onChainChat.target);
+			const message = chatTextInput.value;
+			const userName = chatNameInput.value;
+			const rankNumber = await onChainChat.postMessage(ROOM_ID, userName, message);
+		
+		}
+
+		// 履歴読み込み
+async function fetchLogs() {
+    showStatus(`チャットを取得中... ; contract:${onChainChat} , address:${ONCHAINCHAT_ADDRESS}`, 'info');
+    if (!provider) return;
+
+    const iface = new ethers.Interface(ONCHAINCHAT_ABI);
+    const filter = {
+        address: ONCHAINCHAT_ADDRESS,
+        topics: [
+            iface.getEventTopic("MessagePosted"),
+            ethers.zeroPadValue(ROOM_ID, 32) // indexed roomId
+        ],
+        fromBlock: 0,
+        toBlock: "latest"
+    };
+
+    const logs = await provider.getLogs(filter);
+    const messages = logs.map(log => {
+        const parsed = iface.parseLog(log);
+        return {
+            sender: parsed.args.sender,
+            nickname: parsed.args.nickname,
+            content: parsed.args.content,
+            timestamp: Number(parsed.args.timestamp)
+        };
+    });
+
+    displayMessages(messages);
+}
+
+// メッセージ表示
+function displayMessages(messages) {
+    const div = chatLogText;
+    div.innerHTML = "";
+    messages.sort((a,b)=>a.timestamp-b.timestamp).forEach(m => {
+        const d = new Date(m.timestamp * 1000);
+        div.innerHTML += `<b>${m.nickname}</b> (${m.sender.slice(0,6)}…${m.sender.slice(-4)})<br>${m.content}<br><small>${d.toLocaleString()}</small><hr>`;
+    });
+}
+		
         // 残高の更新
         async function updateBalance() {
             try {
@@ -499,6 +591,8 @@
         transferBtn.addEventListener('click', transferTokens);
         balanceBtn.addEventListener('click', updateBalance);
         checkRankBtn.addEventListener('click', checkRank);
+        postChatBtn.addEventListener('click', postChat);
+        getChatLogBtn.addEventListener('click', fetchLogs);
 
         // MetaMaskのアカウント変更を監視
         if (window.ethereum) {
@@ -532,6 +626,7 @@
     </script>
 </body>
 </html>
+
 
 
 
