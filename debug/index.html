@@ -428,7 +428,8 @@ async function fetchLogs() {
     const filter = {
         address: ONCHAINCHAT_ADDRESS,
         topics: [
-            iface.getEventTopic("MessagePosted"),
+			
+            iface.getEvent("MessagePosted").topic,
             ethers.zeroPadValue(ROOM_ID, 32) // indexed roomId
         ],
         fromBlock: 0,
@@ -628,6 +629,7 @@ function displayMessages(messages) {
     </script>
 </body>
 </html>
+
 
 
 
