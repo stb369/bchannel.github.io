@@ -703,7 +703,7 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
         amount[i] = ethers.utils.parseUnits(amount[i], 18);
       }
       try {
-        const tx = await contract.claimEnergy();
+        const tx = await contract.mintResourceToken(tokenId, amount);
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("✅ Mint successful!");
