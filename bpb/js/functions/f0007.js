@@ -676,10 +676,10 @@
 
     let contract, provider;
 
-export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default function f0007(arg1,arg2,arg3,arg4,arg5,arg6) {
   
-  console.log("f0006 launched");
-  mintTokens(arg1,arg2,arg3);
+  console.log("f0007 launched");
+  mintTokens(arg1);
     
 }
     async function getContract(arg1) {
@@ -695,13 +695,9 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       return contract;
     }
 
-    async function mintTokens(arg1,arg2,arg3) {
+    async function mintTokens(arg1) {
       const contract = await getContract(arg1);
-      const tokenId = arg2;//uint[]
-      const amount = arg3;//uint[]
-      for(let i = 0; i<amount.length; i ++){
-        amount[i] = ethers.utils.parseUnits(amount[i], 18);
-      }
+      
       try {
         const tx = await contract.claimEnergy();
         console.log("Mint TX:", tx.hash);
