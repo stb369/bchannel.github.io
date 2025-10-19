@@ -1,76 +1,687 @@
-//管理表はこちら
-//
-//指定したウォレットアドレスに貧乏神をTransferFromする&成功した場合Receiptを生成する
-//arg1…貧乏神のコントラクトアドレス
-//arg2…Fromウォレットアドレス
-//arg3…Toウォレットアドレス
-//arg4…amount
-//arg5
-//arg6
-  
-
-
-const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ済みアドレスに差し替えてください
-
-    const contractABI = [
-      {
-        "inputs": [
-          { "internalType": "address", "name": "to", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" }
-        ],
-        "name": "mint",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "recipient", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" }
-        ],
-        "name": "transfer",
-        "outputs": [
-          { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "sender", "type": "address" },
-          { "internalType": "address", "name": "recipient", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" }
-        ],
-        "name": "transferFrom",
-        "outputs": [
-          { "internalType": "bool", "name": "", "type": "bool" }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
-          { "indexed": true, "internalType": "address", "name": "to", "type": "address" },
-          { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "indexed": false, "internalType": "uint256", "name": "receiptTokenId", "type": "uint256" },
-          { "indexed": false, "internalType": "bytes32", "name": "txHash", "type": "bytes32" }
-        ],
-        "name": "ReceiptIssued",
-        "type": "event"
-      }
-    ];
+   const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "baseURI",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "godTicketAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "OwnableInvalidOwner",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "OwnableUnauthorizedAccount",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "coordCode",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "gavar",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "energy",
+				"type": "uint256"
+			}
+		],
+		"name": "LiquidityAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "coordCode",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "gavar",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "energy",
+				"type": "uint256"
+			}
+		],
+		"name": "PoolInitialized",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "resourceAddress",
+				"type": "address"
+			}
+		],
+		"name": "ResourceDeployed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "spotType",
+				"type": "uint256"
+			}
+		],
+		"name": "SpotCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "coordCode",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "poolType",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenIn",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenOut",
+				"type": "uint256"
+			}
+		],
+		"name": "SwapTokens",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "spotType",
+				"type": "uint256"
+			}
+		],
+		"name": "WorkPerformed",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "BASEYIELD",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DIAMINE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DIAMONDEXC",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ENERGY_MAX",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ENERGY_RECOVERY_AMOUNT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ENERGY_RECOVERY_INTERVAL",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FOREST",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "INN",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "IRONEXC",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MINE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "QUARRY",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "STONEEXC",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TIMBEREXC",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "_x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_y",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenAmountA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenAmountB",
+				"type": "uint256"
+			}
+		],
+		"name": "addLiquidity",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claimEnergy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "spotType",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "initialScale",
+				"type": "uint256"
+			}
+		],
+		"name": "createSpot",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			}
+		],
+		"name": "getSpot",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "godTicket",
+		"outputs": [
+			{
+				"internalType": "contract IGodTicket",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "_x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_y",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenIdA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenIdB",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenAmountA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenAmountB",
+				"type": "uint256"
+			}
+		],
+		"name": "initPool",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "tokenId",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "amount",
+				"type": "uint256[]"
+			}
+		],
+		"name": "mintResourceToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "pools",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenIdA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenIdB",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenReserveA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenReserveB",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "k",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "baseYield",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			}
+		],
+		"name": "resetPool",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "resource",
+		"outputs": [
+			{
+				"internalType": "contract ResourceManager",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "inTokenAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "swapTokens",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
 
     let contract, provider;
 
-export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default function f0011(arg1,arg2,arg3,arg4,arg5,arg6) {
   
-  console.log("f0003 launched");
-  transferTokens(arg1,arg2,arg3,arg4);
-  
+  console.log("f0011 launched");
+  execSolidity(arg1,arg2,arg3);
+    
 }
-
     async function getContract(arg1) {
       if (!window.ethereum) {
         alert("Please install MetaMask");
@@ -84,49 +695,16 @@ export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
       return contract;
     }
 
-    async function mintTokens() {
-      const contract = await getContract();
-      const to = document.getElementById("mintTo").value;
-      const amount = document.getElementById("mintAmount").value;
+    async function execSolidity(arg1,arg2,arg3) {
+      const contract = await getContract(arg1);
       try {
-        const tx = await contract.mint(to, ethers.utils.parseUnits(amount, 18));
+        const tx = await contract.swapTokens(arg2,arg3);
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("✅ Mint successful!");
       } catch (err) {
         console.error(err);
         alert("❌ Mint failed: " + err.message);
-      }
-    }
-
-    async function transferTokens(arg1,arg2,arg3,arg4) {
-      const contract = await getContract(arg1);
-      const to = arg3;
-      const amount = arg4;
-      try {
-        const tx = await contract.transfer(to, ethers.utils.parseUnits(amount, 18));
-        console.log("Transfer TX:", tx.hash);
-        await tx.wait();
-        alert("✅ Transfer successful!");
-      } catch (err) {
-        console.error(err);
-        alert("❌ Transfer failed: " + err.message);
-      }
-    }
-
-    async function transferFromTokens(arg1,arg2,arg3,arg4) {
-      const contract = await getContract();
-      const from = document.getElementById("transferFrom").value;
-      const to = document.getElementById("transferTo2").value;
-      const amount = document.getElementById("transferAmount2").value;
-      try {
-        const tx = await contract.transferFrom(from, to, ethers.utils.parseUnits(amount, 18));
-        console.log("TransferFrom TX:", tx.hash);
-        await tx.wait();
-        alert("✅ TransferFrom successful!");
-      } catch (err) {
-        console.error(err);
-        alert("❌ TransferFrom failed: " + err.message);
       }
     }
 
