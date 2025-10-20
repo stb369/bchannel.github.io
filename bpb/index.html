@@ -16,9 +16,9 @@
     <script id="solc">
       const solscript = document.createElement("script");
       console.log("solc will load");
-      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.30/solc.js";
+      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
       solscript.onload = () => {
-        console.log("solc loaded:", typeof solc);
+        console.log("solc loaded:", typeof solc, solc.version());
       };
       solscript.onerror = () => {
         console.error("solc failed to load!");
@@ -82,12 +82,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/c6dc100e1b231eb34124f4c62faa5317.loader.js"+"?ts="+(new Date()).getTime();
+      var loaderUrl = buildUrl + "/dfdb243e4b817ae636e044f8f82ed46a.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/216346e82d08cd6269d0f5efaf431b0a.data",
-        frameworkUrl: buildUrl + "/9918bc61ec204fb11554dddf69294403.framework.js",
-        codeUrl: buildUrl + "/248021a37745a8e245eb88ab682f6ddc.wasm",
+        dataUrl: buildUrl + "/a4cc8f371c857629ee35681bd6ee0b7d.data",
+        frameworkUrl: buildUrl + "/fe353112ad29fe35a92b7301622f3fb3.framework.js",
+        codeUrl: buildUrl + "/dfa36fa2be37e2a34eeffdcc3732c70b.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
