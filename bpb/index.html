@@ -25,7 +25,7 @@
       };
       document.head.appendChild(solscript);
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js" defer></script>
   </head>
   <body>
     <div id="unity-container">
@@ -82,12 +82,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/dfdb243e4b817ae636e044f8f82ed46a.loader.js"+"?ts="+(new Date()).getTime();
+      var loaderUrl = buildUrl + "/0c03e52d653747da18e55ee5382cd9fb.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/f5b4de3bc026bebf7024dba8633895a9.data",
-        frameworkUrl: buildUrl + "/fe353112ad29fe35a92b7301622f3fb3.framework.js",
-        codeUrl: buildUrl + "/dfa36fa2be37e2a34eeffdcc3732c70b.wasm",
+        dataUrl: buildUrl + "/7d4e8a3276d816c39bc0c75c0e0be371.data.unityweb",
+        frameworkUrl: buildUrl + "/09d933eca7e35d65e9bb4e1f6e6af5ff.framework.js.unityweb",
+        codeUrl: buildUrl + "/aff7e784befe578c587e3af19212e655.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
