@@ -687,7 +687,8 @@ export default function f0010(arg1,arg2,arg3,arg4,arg5,arg6) {
         alert("Please install MetaMask");
         return;
       }
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+      //provider = new ethers.providers.Web3Provider(window.ethereum);
+		provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
       contract = new ethers.Contract(arg1, contractABI, signer);
