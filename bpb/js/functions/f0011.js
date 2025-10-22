@@ -714,7 +714,7 @@ export default function f0011(arg1,arg2,arg3,arg4,arg5,arg6) {
 
       const logEl = document.getElementById("eventLog");
       contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
-        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.utils.formatUnits(amount, 18)}, tokenId=${tokenId}`;
+        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
         console.log(msg);
         const entry = document.createElement("div");
         entry.textContent = msg;
