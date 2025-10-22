@@ -16,16 +16,16 @@
     <script id="solc">
       const solscript = document.createElement("script");
       console.log("solc will load");
-      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.30/solc.js";
+      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
       solscript.onload = () => {
-        console.log("solc loaded:", typeof solc);
+        console.log("solc loaded:", typeof solc, solc.version());
       };
       solscript.onerror = () => {
         console.error("solc failed to load!");
       };
       document.head.appendChild(solscript);
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js" defer></script>
   </head>
   <body>
     <div id="unity-container">
@@ -82,12 +82,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/c6dc100e1b231eb34124f4c62faa5317.loader.js"+"?ts="+(new Date()).getTime();
+      var loaderUrl = buildUrl + "/0c03e52d653747da18e55ee5382cd9fb.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/216346e82d08cd6269d0f5efaf431b0a.data",
-        frameworkUrl: buildUrl + "/9918bc61ec204fb11554dddf69294403.framework.js",
-        codeUrl: buildUrl + "/248021a37745a8e245eb88ab682f6ddc.wasm",
+        dataUrl: buildUrl + "/e9c6d2bb5d1f47edf956a396a166dac3.data.unityweb",
+        frameworkUrl: buildUrl + "/09d933eca7e35d65e9bb4e1f6e6af5ff.framework.js.unityweb",
+        codeUrl: buildUrl + "/aff7e784befe578c587e3af19212e655.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Psytofu",
         productName: "BChannel",
