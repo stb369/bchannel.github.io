@@ -1,3 +1,5 @@
+
+
 //このソースファイルをC#のURLで指定する
 hoge = function() {
     return {
@@ -8,18 +10,52 @@ hoge = function() {
                 hoge.ExecuteJs(event.data);
               }, false);
           },
+        FetchJS: async function(methodName, parameterObject){
+        
+            //非同期処理
+            let functionMeta;
+            fetch('./js/functions.json').then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); // JSONとしてパース
+  }).then(data => {console.log("data: " + data[methodName]); functionMeta = data[methodName]}).then(data => {
+            const filePath = functionMeta;//functionMetaに格納する時点でvalue値にする
+            if (!filePath) {
+                console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
+            return;
+            }
+
+            console.log("filepath '" + filePath + "'");
+            // 動的にファイルをインポートして関数を実行
+            //const {module} = import(filePath);
+            import(filePath).then((myModule) => {
+                if (myModule.default && typeof myModule.default === 'function'){
+                    myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+                }else{
+                    console.log("module error");
+                }
+                //module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            });
+            
+    });
+        },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
         ExecuteJs: function(message) {
             console.log("ExecuteJs message:"+message);
+            //引数をJsonに
             if (typeof (message) !== "string" && !(message instanceof String) || message == "null") {
                 return;
             }
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
-            var evalString = methodName + '(parameterObject)';
-            eval(evalString);//このevalStringの中に、JavaScriptのソースコードが入っている
-          },
-
+            // メタデータから対応するファイルパスを取得
+            console.log('methodName:'+methodName);
+            (async () => {
+                await hoge.FetchJS(methodName, parameterObject);
+            })();
+        },
+        
         ShowHtml: function(parameterObject) {
             // IFrame生成
             webview.method.CreateIframe(parameterObject);
@@ -64,7 +100,7 @@ hoge = function() {
           solcCompile: function(compiler) {
             status("compiling");
             document.getElementById("compile-output").value = "";
-            var result = compiler.compile(getSourceCode(), 1);
+            var result = solc.compile(getSourceCode(), 1);
             var stringResult = JSON.stringify(result);
             document.getElementById("compile-output").value = stringResult;
             status("Compile Complete.");
@@ -72,67 +108,13 @@ hoge = function() {
         
           loadSolcVersion: function() {
             status("Loading Solc: " + getVersion());
-            BrowserSolc.loadVersion(getVersion(), function(c) {
+            solc.loadVersion(getVersion(), function(c) {
                 compiler = c;
                 console.log("Solc Version Loaded: " + getVersion());
                 status("Solc loaded.  Compiling...");
                 solcCompile(compiler);
             });
-          },
-        
-          CompileUniqueContract: function(solidityCode) {
-            
-            const code = UTF8ToString(solidityCode);
-            console.log("compile address:"+code);
-            const input = {
-              language: 'Solidity',
-              sources: {
-                'Unique.sol': {
-                  content: code
-                }
-              },
-              settings: {
-                outputSelection: {
-                  '*': {
-                    '*': ['abi', 'evm.bytecode']
-                  }
-                }
-              }
-            };
-          
-            try {
-              const output = JSON.parse(compiler.compile(JSON.stringify(input),1));
-              if (output.errors) {
-                const errors = output.errors.map(e => e.formattedMessage).join('\n');
-                console.log('errors:'+errors);
-                SendMessage('ContractCompiler', 'OnCompilationError', errorMessages);
-                return;
-              }
-          
-              const contract = output.contracts['Unique.sol'];
-              const name = Object.keys(contract)[0];
-              const abi = contract[name].abi;
-              const bytecode = contract[name].evm.bytecode.object;
-              const result = JSON.stringify({ abi, bytecode });
-          
-              console.log('result:' + result);
-              SendMessage('ContractCompiler', 'OnContractCompiled', result);
-            } catch (e) {
-              console.log('e:' + e.message);
-              SendMessage('ContractCompiler', 'OnCompilationError', e.message);
-            }
-          },
-        
-          InitOnLoad: function() {
-            if (typeof window !== 'undefined') {
-              window.addEventListener('load', function () {
-                console.log("✅ window.onload triggered from jslib!");
-                // ここに初期化処理など
-              });
-            }
           }
-          
-          
     };
 
       
