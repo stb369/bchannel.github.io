@@ -88,7 +88,7 @@ export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
       const to = arg2;
       const amount = arg3;
       try {
-        const tx = await contract.mint(to, ethers.utils.parseUnits(amount, 18));
+        const tx = await contract.mint(to, ethers.parseUnits(amount, 18));
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("✅ Mint successful!");
@@ -103,7 +103,7 @@ export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
       const to = document.getElementById("transferTo").value;
       const amount = document.getElementById("transferAmount").value;
       try {
-        const tx = await contract.transfer(to, ethers.utils.parseUnits(amount, 18));
+        const tx = await contract.transfer(to, ethers.parseUnits(amount, 18));
         console.log("Transfer TX:", tx.hash);
         await tx.wait();
         alert("✅ Transfer successful!");
@@ -119,7 +119,7 @@ export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
       const to = document.getElementById("transferTo2").value;
       const amount = document.getElementById("transferAmount2").value;
       try {
-        const tx = await contract.transferFrom(from, to, ethers.utils.parseUnits(amount, 18));
+        const tx = await contract.transferFrom(from, to, ethers.parseUnits(amount, 18));
         console.log("TransferFrom TX:", tx.hash);
         await tx.wait();
         alert("✅ TransferFrom successful!");
@@ -134,7 +134,7 @@ export default function f0002(arg1,arg2,arg3,arg4,arg5,arg6) {
 
       const logEl = document.getElementById("eventLog");
       contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
-        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.utils.formatUnits(amount, 18)}, tokenId=${tokenId}`;
+        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
         console.log(msg);
         const entry = document.createElement("div");
         entry.textContent = msg;
