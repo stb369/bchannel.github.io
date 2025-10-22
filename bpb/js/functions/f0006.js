@@ -701,7 +701,7 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       const tokenId = arg2;//uint[]
       const amount = arg3;//uint[]
       for(let i = 0; i<amount.length; i ++){
-        amount[i] = ethers.utils.parseUnits(amount[i], 18);
+        amount[i] = ethers.parseUnits(amount[i], 18);
       }
       try {
         const tx = await contract.mintResourceToken(tokenId, amount);
@@ -719,7 +719,7 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
 
       const logEl = document.getElementById("eventLog");
       contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
-        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.utils.formatUnits(amount, 18)}, tokenId=${tokenId}`;
+        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
         console.log(msg);
         const entry = document.createElement("div");
         entry.textContent = msg;
