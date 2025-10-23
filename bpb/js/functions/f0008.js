@@ -715,8 +715,8 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
       if (!contract) return;
 
       const logEl = document.getElementById("eventLog");
-      contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
-        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
+      contract.on("PoolInitialized", (corrdCode, gavar, energy, ) => {
+        const msg = `📘 PoolInitialized: corrdCode=${corrdCode}, gavar=${gavar}, energy=${ethers.formatUnits(energy, 18)}`;
         console.log(msg);
         const entry = document.createElement("div");
         entry.textContent = msg;
