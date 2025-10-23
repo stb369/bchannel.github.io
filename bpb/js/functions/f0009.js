@@ -713,8 +713,8 @@ export default function f0009(arg1,arg2,arg3,arg4,arg5,arg6) {
       if (!contract) return;
 
       const logEl = document.getElementById("eventLog");
-      contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
-        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
+      contract.on("LiquidityAdded(", (user, coordCode, gavar, energy) => {
+        const msg = `📘 ReceiptIssued: user=${user}, coordCode=${coordCode}, gavar=${ethers.formatUnits(gavar, 18)}, energy=${energy}`;
         console.log(msg);
         const entry = document.createElement("div");
         entry.textContent = msg;
