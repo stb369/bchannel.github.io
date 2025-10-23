@@ -714,7 +714,7 @@ export default function f0010(arg1,arg2,arg3,arg4,arg5,arg6) {
 
       const logEl = document.getElementById("eventLog");
       contract.on("SwapTokens", (user, coordCode, poolType, tokenIn, tokenOut) => {
-        const msg = `📘 ReceiptIssued: user=${user}, coordCode=${coordCode}, poolType=${poolType}, tokenIn={ethers.formatUnits(tokenIn, 18)},tokenOut={ethers.formatUnits(tokenOut, 18)}`;
+        const msg = `📘 SwapTokens: user=${user}, coordCode=${coordCode}, poolType=${poolType}, tokenIn={ethers.formatUnits(tokenIn, 18)},tokenOut={ethers.formatUnits(tokenOut, 18)}`;
         console.log(msg);
         const entry = document.createElement("div");
         entry.textContent = msg;
