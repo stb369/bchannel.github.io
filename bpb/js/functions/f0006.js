@@ -716,7 +716,7 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
 
     function listenToEvents() {
       if (!contract) return;
-
+		/*
       const logEl = document.getElementById("eventLog");
       contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
         const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
@@ -725,6 +725,7 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
         entry.textContent = msg;
         logEl.prepend(entry);
       });
+	  */
     }
           
        
