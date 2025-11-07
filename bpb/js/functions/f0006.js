@@ -29,6 +29,8 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       for(let i = 0; i<amount.length; i ++){
         amount[i] = ethers.parseUnits(amount[i], 18);
       }
+		console.log("tokenId:",tokenId);
+		console.log("amount:",amount);
       try {
         const tx = await contract.mintResourceToken(tokenId, amount);
         console.log("Mint TX:", tx.hash);
