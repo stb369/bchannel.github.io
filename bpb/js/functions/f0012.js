@@ -7,6 +7,16 @@
 				"type": "string"
 			},
 			{
+				"internalType": "uint256",
+				"name": "coordScale",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "movementCost",
+				"type": "uint256"
+			},
+			{
 				"internalType": "address",
 				"name": "godTicketAddress",
 				"type": "address"
@@ -43,37 +53,6 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "coordCode",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "gavar",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "energy",
-				"type": "uint256"
-			}
-		],
-		"name": "LiquidityAdded",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
 				"name": "previousOwner",
 				"type": "address"
 			},
@@ -97,19 +76,56 @@
 				"type": "uint256"
 			},
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
-				"name": "gavar",
+				"name": "area",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "energy",
+				"name": "poolType",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenAmountA",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenAmountB",
 				"type": "uint256"
 			}
 		],
-		"name": "PoolInitialized",
+		"name": "PoolUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			}
+		],
+		"name": "PositionUpdated",
 		"type": "event"
 	},
 	{
@@ -128,6 +144,12 @@
 	{
 		"anonymous": false,
 		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "area",
+				"type": "uint256"
+			},
 			{
 				"indexed": false,
 				"internalType": "int256",
@@ -148,6 +170,43 @@
 			}
 		],
 		"name": "SpotCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "spotType",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "result",
+				"type": "string"
+			}
+		],
+		"name": "SpotInteracted",
 		"type": "event"
 	},
 	{
@@ -185,25 +244,6 @@
 			}
 		],
 		"name": "SwapTokens",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "spotType",
-				"type": "uint256"
-			}
-		],
-		"name": "WorkPerformed",
 		"type": "event"
 	},
 	{
@@ -324,6 +364,52 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			}
+		],
+		"name": "InteractSpot",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "InteractSpot",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "MINE",
 		"outputs": [
@@ -379,6 +465,30 @@
 		"inputs": [
 			{
 				"internalType": "int256",
+				"name": "a",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "b",
+				"type": "int256"
+			}
+		],
+		"name": "absDiffSafe",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
 				"name": "_x",
 				"type": "int256"
 			},
@@ -401,6 +511,19 @@
 		"name": "addLiquidity",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "balanceObTest",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -436,6 +559,24 @@
 		"name": "createSpot",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPlayerPosition",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -527,6 +668,24 @@
 			}
 		],
 		"name": "mintResourceToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "newX",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "newY",
+				"type": "int256"
+			}
+		],
+		"name": "movePlayer",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -634,27 +793,12 @@
 	{
 		"inputs": [
 			{
-				"internalType": "int256",
-				"name": "x",
-				"type": "int256"
-			},
-			{
-				"internalType": "int256",
-				"name": "y",
-				"type": "int256"
-			},
-			{
 				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "inTokenAmount",
+				"name": "value",
 				"type": "uint256"
 			}
 		],
-		"name": "swapTokens",
+		"name": "setMovementCost",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
