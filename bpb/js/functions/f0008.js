@@ -4,7 +4,6 @@ let contract, provider;
 export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0008 launched");
-  await loadABI("./ABI_11.json");
   execSolidity(arg1,arg2,arg3,arg4,arg5,arg6);
     
 }
@@ -23,6 +22,7 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
     }
 
     async function execSolidity(arg1,arg2,arg3,arg4,arg5,arg6) {
+	  await loadABI("./ABI_11.json");
       const contract = await getContract(arg1);
       const tokenIdA = arg4 / 1000;
       const tokenIdB = arg4 % 1000;
