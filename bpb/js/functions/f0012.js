@@ -27,7 +27,6 @@ export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
       try {
         const tx = await contract.getSpot(arg2,arg3);
         console.log("Mint TX:", tx.hash);
-        await tx.wait();
         alert("✅ Mint successful!");
       } catch (err) {
         console.error(err);
