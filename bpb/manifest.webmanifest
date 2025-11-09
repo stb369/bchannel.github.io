@@ -1,6 +1,6 @@
 {
-    "name": "BChannel",
-    "short_name": "BChannel",
+    "name": "OnEventLog",
+    "short_name": "OnEventLog",
     "start_url": "index.html",
     "display": "fullscreen",
     "background_color": "#231F20",

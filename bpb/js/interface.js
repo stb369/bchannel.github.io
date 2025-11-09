@@ -31,10 +31,7 @@ hoge = function() {
             //const {module} = import(filePath);
             import(filePath).then((myModule) => {
                 if (myModule.default && typeof myModule.default === 'function'){
-                    const result = myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
-                    if(typeof result == 'string'){
-                        window.InterfaceCS.SendMessage(result);
-                    }
+                    myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
                 }else{
                     console.log("module error");
                 }

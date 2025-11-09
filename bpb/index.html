@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | BChannel</title>
+    <title>Unity Web Player | OnEventLog</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="twitter:card" content="player">
-    <meta name="twitter:title" content="BChannel">
+    <meta name="twitter:title" content="OnEventLog">
     <meta name="twitter:image" content="https://stb369.github.io/bchannel.github.io/bpb/bigfour.jpg">
     <meta name="twitter:player" content="https://stb369.github.io/bchannel.github.io/bpb/index.html">
     <meta name="twitter:player:height" content="360">
     <meta name="twitter:player:width" content="540">
     <script id="solc">
       const solscript = document.createElement("script");
-      console.log("solc will load");
+      //console.log("solc will load");
       solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
       solscript.onload = () => {
-        console.log("solc loaded:", typeof solc, solc.version());
+        //console.log("solc loaded:", typeof solc, solc.version());
       };
       solscript.onerror = () => {
-        console.error("solc failed to load!");
+        //console.error("solc failed to load!");
       };
       document.head.appendChild(solscript);
     </script>
@@ -82,15 +82,15 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/0c03e52d653747da18e55ee5382cd9fb.loader.js"+"?ts="+(new Date()).getTime();
+      var loaderUrl = buildUrl + "/e378883bd0c775414cade00c200c20ba.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/e9c6d2bb5d1f47edf956a396a166dac3.data.unityweb",
-        frameworkUrl: buildUrl + "/09d933eca7e35d65e9bb4e1f6e6af5ff.framework.js.unityweb",
-        codeUrl: buildUrl + "/aff7e784befe578c587e3af19212e655.wasm.unityweb",
+        dataUrl: buildUrl + "/036f6f209e2e60932df7f3946aa498df.data.unityweb",
+        frameworkUrl: buildUrl + "/e48b658fb2abbb3ff91780fe6a8c90e0.framework.js.unityweb",
+        codeUrl: buildUrl + "/f0c4122facfb1d07c3722bab5ba4af16.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "Psytofu",
-        productName: "BChannel",
+        companyName: "InterfaceJSLib",
+        productName: "OnEventLog",
         productVersion: "0.1.1",
         showBanner: unityShowBanner,
       };
@@ -118,7 +118,18 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
-          nethereumUnityInstance = unityInstance;
+          Object.defineProperty(window, "nethereumUnityInstance", {
+            value: unityInstance,
+            writable: false,
+            configurable: false,
+          });
+
+          window.InterfaceCS = {
+            SendMessage: (msg) => {
+              unityInstance.SendMessage(config.companyName, config.productName, msg);
+            },
+          };
+
           loadingBar.style.display = "none";
           //fullscreenButton.onclick = () => {
             //unityInstance.SetFullscreen(1);
