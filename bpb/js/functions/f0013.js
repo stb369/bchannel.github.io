@@ -5,8 +5,7 @@
 export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0013 launched");
-  execSolidity(arg1,arg2,arg3,arg4);
-    
+  return execSolidity(arg1,arg2,arg3,arg4);
 }
     async function getContract(arg1) {
       if (!window.ethereum) {
@@ -48,7 +47,7 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 		return log.data;
       });
 		console.log(messages);
-		SendMessage('ContractCompiler', 'OnEventLog', messages);
+		return messages;
     }
 
     
