@@ -22,7 +22,7 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
     }
 
     async function execSolidity(arg1,arg2,arg3,arg4,arg5,arg6) {
-	  await loadABI("./ABI_11.json");
+	  await loadABI("./js/functions/ABI_11.json");
       const contract = await getContract(arg1);
       const tokenIdA = arg4 / 1000;
       const tokenIdB = arg4 % 1000;
