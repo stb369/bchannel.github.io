@@ -4,7 +4,7 @@ let contract, provider;
 export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0012 launched");
-  execSolidity(arg1,arg2,arg3);
+  return execSolidity(arg1,arg2,arg3);
     
 }
     async function getContract(arg1) {
@@ -27,7 +27,7 @@ export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
       try {
         const tx = await contract.getSpot(arg2,arg3);
 		console.log("tx:",tx);
-        alert("result:",tx);
+		return tx;
       } catch (err) {
         console.error(err);
         alert("❌ getSpot failed: " + err.message);
