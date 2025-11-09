@@ -34,6 +34,8 @@ hoge = function() {
                     const result = myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
                     if(typeof result === 'string'){
                         window.InterfaceCS.SendMessage(result);
+                    }else{
+                        console.log("result is not string");
                     }
                 }else{
                     console.log("module error");
