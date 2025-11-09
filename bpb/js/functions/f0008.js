@@ -27,7 +27,7 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
       const tokenIdA = arg4 / 1000;
       const tokenIdB = arg4 % 1000;
       try {
-        const tx = await contract.initPool(arg2,arg3,tokenIdA,tokenIdB,arg5,arg6);
+        const tx = await contract.initPool(arg2,arg3,tokenIdA,tokenIdB,ethers.parseUnits(arg5, 18),ethers.parseUnits(arg6, 18));
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("✅ Mint successful!");
