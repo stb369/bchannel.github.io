@@ -25,7 +25,7 @@ export default function f0009(arg1,arg2,arg3,arg4,arg5,arg6) {
 	  await loadABI("./js/functions/11_abi.json");
       const contract = await getContract(arg1);
       try {
-        const tx = await contract.addLiquidity(arg2,arg3,arg4,arg5);
+        const tx = await contract.addLiquidity(arg2,arg3,ethers.formatUnits(arg4, 18),ethers.formatUnits(arg5, 18));
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("✅ Mint successful!");
