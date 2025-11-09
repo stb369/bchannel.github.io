@@ -4,6 +4,7 @@ let contract, provider;
 export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0006 launched");
+  await loadABI("./ABI_11.json");
   mintTokens(arg1,arg2,arg3);
     
 }

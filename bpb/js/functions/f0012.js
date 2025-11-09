@@ -22,7 +22,7 @@ export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
     }
 
     async function execSolidity(arg1,arg2,arg3) {
-	  await loadABI("./js/functions/ABI_11.json");
+	  await loadABI("./js/functions/11_abi.json");
       const contract = await getContract(arg1);
       try {
         const tx = await contract.getSpot(arg2,arg3);
@@ -36,7 +36,7 @@ export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
 
     function listenToEvents() {
       if (!contract) return;
-
+		/*
       const logEl = document.getElementById("eventLog");
       contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
         const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
@@ -45,6 +45,7 @@ export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
         entry.textContent = msg;
         logEl.prepend(entry);
       });
+	  */
     }
           
        
