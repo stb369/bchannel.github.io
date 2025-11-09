@@ -35,7 +35,7 @@ hoge = function() {
                     if(typeof result === 'string'){
                         window.InterfaceCS.SendMessage(result);
                     }else{
-                        console.log("result is not string");
+                        console.log("result is not string:",result.toString());
                     }
                 }else{
                     console.log("module error");
