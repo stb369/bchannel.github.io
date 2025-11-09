@@ -26,7 +26,7 @@ export default function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
       const contract = await getContract(arg1);
       try {
         const tx = await contract.getSpot(arg2,arg3);
-        alert("result:",tx);
+        alert("result:",tx.toString());
       } catch (err) {
         console.error(err);
         alert("❌ getSpot failed: " + err.message);
