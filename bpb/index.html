@@ -126,6 +126,7 @@
 
           window.InterfaceCS = {
             SendMessage: (msg) => {
+              console.log('index.html send msg in window.InterfaceCS.SendMessage:',msg);
               unityInstance.SendMessage(config.companyName, config.productName, msg);
             },
           };
