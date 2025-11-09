@@ -77,7 +77,7 @@ const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ�
       //provider = new ethers.providers.Web3Provider(window.ethereum);
       provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
       contract = new ethers.Contract(arg1, contractABI, signer);
       listenToEvents();
       return contract;

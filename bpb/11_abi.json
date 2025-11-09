@@ -1,10 +1,20 @@
-   const contractABI = [
+[
 	{
 		"inputs": [
 			{
 				"internalType": "string",
 				"name": "baseURI",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "coordScale",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "movementCost",
+				"type": "uint256"
 			},
 			{
 				"internalType": "address",
@@ -43,37 +53,6 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "uint256",
-				"name": "coordCode",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "gavar",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "energy",
-				"type": "uint256"
-			}
-		],
-		"name": "LiquidityAdded",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
 				"name": "previousOwner",
 				"type": "address"
 			},
@@ -97,19 +76,56 @@
 				"type": "uint256"
 			},
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
-				"name": "gavar",
+				"name": "area",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "energy",
+				"name": "poolType",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenAmountA",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenAmountB",
 				"type": "uint256"
 			}
 		],
-		"name": "PoolInitialized",
+		"name": "PoolUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			}
+		],
+		"name": "PositionUpdated",
 		"type": "event"
 	},
 	{
@@ -128,6 +144,12 @@
 	{
 		"anonymous": false,
 		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "area",
+				"type": "uint256"
+			},
 			{
 				"indexed": false,
 				"internalType": "int256",
@@ -148,6 +170,43 @@
 			}
 		],
 		"name": "SpotCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "spotType",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "result",
+				"type": "string"
+			}
+		],
+		"name": "SpotInteracted",
 		"type": "event"
 	},
 	{
@@ -185,25 +244,6 @@
 			}
 		],
 		"name": "SwapTokens",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "spotType",
-				"type": "uint256"
-			}
-		],
-		"name": "WorkPerformed",
 		"type": "event"
 	},
 	{
@@ -324,6 +364,52 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			}
+		],
+		"name": "InteractSpot",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "x",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "y",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "InteractSpot",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "MINE",
 		"outputs": [
@@ -379,6 +465,30 @@
 		"inputs": [
 			{
 				"internalType": "int256",
+				"name": "a",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "b",
+				"type": "int256"
+			}
+		],
+		"name": "absDiffSafe",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
 				"name": "_x",
 				"type": "int256"
 			},
@@ -401,6 +511,19 @@
 		"name": "addLiquidity",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "balanceObTest",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -436,6 +559,24 @@
 		"name": "createSpot",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPlayerPosition",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -527,6 +668,24 @@
 			}
 		],
 		"name": "mintResourceToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "newX",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "newY",
+				"type": "int256"
+			}
+		],
+		"name": "movePlayer",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -634,27 +793,12 @@
 	{
 		"inputs": [
 			{
-				"internalType": "int256",
-				"name": "x",
-				"type": "int256"
-			},
-			{
-				"internalType": "int256",
-				"name": "y",
-				"type": "int256"
-			},
-			{
 				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "inTokenAmount",
+				"name": "value",
 				"type": "uint256"
 			}
 		],
-		"name": "swapTokens",
+		"name": "setMovementCost",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -672,55 +816,4 @@
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
-
-    let contract, provider;
-
-export default function f0011(arg1,arg2,arg3,arg4,arg5,arg6) {
-  
-  console.log("f0011 launched");
-  execSolidity(arg1,arg2,arg3);
-    
-}
-    async function getContract(arg1) {
-      if (!window.ethereum) {
-        alert("Please install MetaMask");
-        return;
-      }
-      //provider = new ethers.providers.Web3Provider(window.ethereum);
-		provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      contract = new ethers.Contract(arg1, contractABI, signer);
-      listenToEvents();
-      return contract;
-    }
-
-    async function execSolidity(arg1,arg2,arg3) {
-      const contract = await getContract(arg1);
-      try {
-        const tx = await contract.swapTokens(arg2,arg3);
-        console.log("Mint TX:", tx.hash);
-        await tx.wait();
-        alert("✅ Mint successful!");
-      } catch (err) {
-        console.error(err);
-        alert("❌ Mint failed: " + err.message);
-      }
-    }
-
-    function listenToEvents() {
-      if (!contract) return;
-		/*
-      const logEl = document.getElementById("eventLog");
-      contract.on("ReceiptIssued", (from, to, amount, tokenId, txHash) => {
-        const msg = `📘 ReceiptIssued: from=${from}, to=${to}, amount=${ethers.formatUnits(amount, 18)}, tokenId=${tokenId}`;
-        console.log(msg);
-        const entry = document.createElement("div");
-        entry.textContent = msg;
-        logEl.prepend(entry);
-      });
-	  */
-    }
-          
-       
+]

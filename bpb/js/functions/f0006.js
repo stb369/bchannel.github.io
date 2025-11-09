@@ -23,6 +23,7 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
     }
 
     async function mintTokens(arg1,arg2,arg3) {
+	  await loadABI("./ABI_11.json");
       const contract = await getContract(arg1);
       const tokenId = arg2;//uint[]
       const amount = arg3;//uint[]
