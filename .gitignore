@@ -1,2 +1,3 @@
 bpb/js/*
 !bpb/js/functions
+bpb/js/interface.js
