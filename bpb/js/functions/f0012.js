@@ -30,8 +30,7 @@ export default async function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
 		console.log("tx:",tx);
 		return tx;
       } catch (err) {
-        console.error(err);
-        alert("❌ getSpot failed: " + err.message);
+        console.error("getSpot failed: " + err.message);
       }
     }
 
