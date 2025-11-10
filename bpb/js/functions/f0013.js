@@ -63,6 +63,20 @@ function getSignature(arg3, abiJson){
 	  return signature;
 }
 
+//  外部JSONからABIを取得
+async function loadABI(path) {
+  try {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error(`Failed to load ABI: ${response.statusText}`);
+    const json = await response.json();
+    contractABI = json;
+    console.log("ABI loaded successfully.");
+  } catch (err) {
+    console.error("ABI load failed:", err);
+  }
+}
+
+
     
           
        
