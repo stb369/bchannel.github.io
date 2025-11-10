@@ -9,12 +9,13 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
     
 
     async function execSolidity(arg1,arg2,arg3,arg4) {//arg1_address,arg2_abi,arg3_signature,arg4_filter
+	  if (!window.ethereum) {
+        alert("Please install MetaMask");
+        return;
+      }
 	  const abipath = "./js/functions/" + arg2.split(".")[0] + ".json";
 	  await loadABI(abipath);
-	  if (window.ethereum) {
-          // MetaMaskなどからWeb3Providerを取得
-          provider = new ethers.BrowserProvider(window.ethereum); 
-      }
+	  provider = new ethers.BrowserProvider(window.ethereum);
 	  const signature = getSignature(arg3, contractABI);
       const iface = new ethers.Interface(contractABI);
 	  const threadId = ethers.id(arg4);//indexe
