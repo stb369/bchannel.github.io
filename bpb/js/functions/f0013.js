@@ -31,16 +31,28 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
       };
 		const logs = await provider.getLogs(filter);//型「Log」の配列
       
-        const parsedLogs = logs.map(log => iface.parseLog(log));
-        const messages = logs.map(log => {
-        const parsed = iface.parseLog(log);
-        if(parsed === null){
-          return null;
-        }
-		return log.data;
+        const parsedLogs = logs.map(log => {
+			try{
+        		const parsed = iface.parseLog(log);
+				if (parsed){
+					return {
+						eventName: parsed.name,
+                    	args: parsed.args, // デコードされた引数 (string, BigIntなど)
+                    	logData: log.data, // 元の16進数データも保持
+                    	// 元のlog情報から必要なものを追加
+                    	transactionHash: log.transactionHash
+					};
+				}
+			} catch (e){
+				console.warn("ログのパースに失敗:", e.message, log.transactionHash);
+			}
+			return null;
       });
-		console.log(messages);
-		return messages;
+		// 2. filter()で null の要素を除外
+    	const validParsedLogs = parsedLogs.filter(item => item !== null);
+	    console.log(validParsedLogs);
+	    // デコード済みの汎用的なログデータの配列を返却
+   		return validParsedLogs;
     }
 
 function getSignature(arg3, abiJson){
