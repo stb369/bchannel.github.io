@@ -13,18 +13,6 @@
     <meta name="twitter:player" content="https://stb369.github.io/bchannel.github.io/bpb/index.html">
     <meta name="twitter:player:height" content="360">
     <meta name="twitter:player:width" content="540">
-    <script id="solc">
-      const solscript = document.createElement("script");
-      //console.log("solc will load");
-      solscript.src = "https://cdn.jsdelivr.net/npm/solc@0.8.21/solc.min.js";
-      solscript.onload = () => {
-        //console.log("solc loaded:", typeof solc, solc.version());
-      };
-      solscript.onerror = () => {
-        //console.error("solc failed to load!");
-      };
-      document.head.appendChild(solscript);
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js" defer></script>
   </head>
   <body>
@@ -82,12 +70,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/e378883bd0c775414cade00c200c20ba.loader.js"+"?ts="+(new Date()).getTime();
+      var loaderUrl = buildUrl + "/b1cc80643befd09cd5556b0a0f64d9b9.loader.js"+"?ts="+(new Date()).getTime();
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/ca51936cc605b89aae72841f6e767741.data.unityweb",
-        frameworkUrl: buildUrl + "/e48b658fb2abbb3ff91780fe6a8c90e0.framework.js.unityweb",
-        codeUrl: buildUrl + "/f0c4122facfb1d07c3722bab5ba4af16.wasm.unityweb",
+        dataUrl: buildUrl + "/75c69cbc73788e3d82743afbc486536f.data.unityweb",
+        frameworkUrl: buildUrl + "/24850c760b9afa3ff5f0ffb3906451fa.framework.js.unityweb",
+        codeUrl: buildUrl + "/ce5af84a874c4efc44cd8a4fa268597c.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "InterfaceJSLib",
         productName: "OnEventLog",
@@ -126,7 +114,6 @@
 
           window.InterfaceCS = {
             SendMessage: (msg) => {
-              console.log('index.html send msg in window.InterfaceCS.SendMessage:',msg);
               unityInstance.SendMessage(config.companyName, config.productName, msg);
             },
           };
