@@ -17,7 +17,8 @@ hoge = function() {
             const response = await fetch('./js/functions.json');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
-            console.log("data: " + data[methodName]); 
+            console.log("data: " + data[methodName]);
+            functionMeta = data[methodName];
             const filePath = functionMeta;
             console.log("filepath '" + filePath + "'");
             if (!filePath) {
