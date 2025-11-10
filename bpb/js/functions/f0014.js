@@ -1,10 +1,10 @@
 let contractABI = null;
 let contract, provider;
 
-export default async function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default async function f0014(arg1,arg2,arg3,arg4,arg5,arg6) {
   
-  console.log("f0012 launched");
-	const result = await execSolidity(arg1,arg2,arg3);
+  console.log("f0014 launched");
+	const result = await execSolidity(arg1);
   return result;
     
 }
@@ -22,13 +22,13 @@ export default async function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
       return contract;
     }
 
-    async function execSolidity(arg1,arg2,arg3) {
+    async function execSolidity(arg1) {
 	  await loadABI("./js/functions/11_abi.json");
       const contract = await getContract(arg1);
       try {
-        const tx = await contract.getSpot(arg2,arg3);
+        const tx = await contract.getPlayerPosition();
 		console.log("tx:",tx);
-		return tx;
+		return tx.toString();
       } catch (err) {
         console.error("getSpot failed: " + err.message);
       }
