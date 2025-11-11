@@ -1,9 +1,9 @@
-const cacheName = "Psytofu-BChannel-0.1.1";
+const cacheName = "InterfaceJSLib-OnEventLog-0.1.1";
 const contentToCache = [
-    "Build/0c03e52d653747da18e55ee5382cd9fb.loader.js",
-    "Build/09d933eca7e35d65e9bb4e1f6e6af5ff.framework.js.unityweb",
-    "Build/e9c6d2bb5d1f47edf956a396a166dac3.data.unityweb",
-    "Build/aff7e784befe578c587e3af19212e655.wasm.unityweb",
+    "Build/b1cc80643befd09cd5556b0a0f64d9b9.loader.js",
+    "Build/24850c760b9afa3ff5f0ffb3906451fa.framework.js.unityweb",
+    "Build/75c69cbc73788e3d82743afbc486536f.data.unityweb",
+    "Build/ce5af84a874c4efc44cd8a4fa268597c.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
