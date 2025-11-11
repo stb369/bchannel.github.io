@@ -29,7 +29,18 @@ hoge = function() {
             if (myModule.default && typeof myModule.default === 'function'){
                     const result = await myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
                     if(typeof result == 'string'){
-                        window.InterfaceCS.SendMessage(result);
+                        if(typeof window.InterfaceCS !== "undefined" && window.InterfaceCS?.SendMessage){
+                            window.InterfaceCS.SendMessage(result);
+                        }else{
+                            // ✅ Unity Editor上での通信
+                            fetch("http://localhost:5005/", {
+                              method: "POST",
+                              headers: { "Content-Type": "text/plain" },
+                              body: result,
+                            }).catch(err => console.error("Unity Editorへの送信失敗:", err));
+  
+                        }
+                        
                     }else{
                         console.log("result is not string:", result);
                     }
