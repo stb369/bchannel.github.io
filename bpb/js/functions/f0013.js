@@ -35,7 +35,6 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
     	const validParsedLogs = logs.filter(item => item !== null);
 		const extractedLogs = validParsedLogs.map(logItem => {
     		const args = logItem.args;
-    		const eventName = logItem.eventName;
     
     		// 💡 汎用的な引数（args）の抽出と整形
     		const formattedArgs = {};
@@ -43,31 +42,25 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
     		// argsオブジェクトを反復処理し、インデックスのない名前付きプロパティのみを抽出する
     		// ethers.jsのArgsオブジェクトは、プロパティ名が数字でないことをチェックすることで、
     		// 引数の名前と値のペアだけを抽出できます。
-    		for (const key in args) {
+    		for (let i = 0; i<args.length;i++) {
         		// キーが数字ではない（名前付き引数である）ことを確認
-        		if (isNaN(Number(key))) { 
-            		let value = args[key];
-		            // BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
-        		    // ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
-            		if (typeof value === 'bigint') {
-                	// 汎用的に文字列として格納。後続の処理で用途に合わせて formatUnits を使うことを推奨
-                	//value = value.toString(); 
-                
-                		// 🚨 補足: トークン量の場合は formatUnits を使う方が人に優しい
-                		if (key.includes("Amount")) {
-                    		value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
-                		}
-            		}// その他の型（string, bytes32, addressなど）はそのまま格納されます
-            		formattedArgs[key] = value;
-        		}
+        		let value = args[i];
+				// BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
+				// ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
+				if (typeof value === 'bigint') {
+					if (args[i].includes("Amount")) {
+						value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
+					}
+				}// その他の型（string, bytes32, addressなど）はそのまま格納されます
+				formattedArgs[i] = value;
     		}
 
-    return {
-        eventName: eventName,
-        transactionHash: logItem.transactionHash,
-        args: formattedArgs // 汎用的な整形済み引数オブジェクト
-    };
-});
+    		return {
+        		blockNumber: logItem.blockNumber,
+        		transactionHash: logItem.transactionHash,
+        		args: formattedArgs // 汎用的な整形済み引数オブジェクト
+    		};
+		});
 
 console.log("汎用的に抽出・整形されたログ:", extractedLogs);
 
