@@ -35,7 +35,7 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 			try{
         		const parsed = iface.parseLog(log).sort((a, b) => b.blockNumber - a.blockNumber);
 				if (parsed){
-					for(int i ;i< parsed.args.length;i++){
+					for(let i = 0 ;i< parsed.args.length;i++){
 						resultString += parsed.args[i].toString();
 					}
 					return resultString;
