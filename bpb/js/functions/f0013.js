@@ -32,17 +32,19 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 		const logs = await provider.getLogs(filter);//型「Log」の配列
       	var resultString = "";
 		// 2. filter()で null の要素を除外
-    	const validParsedLogs = logs.filter(item => item !== null);
-		const extractedLogs = validParsedLogs.map(logItem => {
-    		const args = logItem.args;
+    	const validLogs = logs.filter(item => item !== null);
+		const extractedLogs = validLogs.map(log => {
+    		const parsed = iface.parseLog(log);
     
     		// 💡 汎用的な引数（args）の抽出と整形
     		const formattedArgs = {};
-    		
+    		if(parsed === null){
+          		return null;
+        	}
     		// argsオブジェクトを反復処理し、インデックスのない名前付きプロパティのみを抽出する
     		// ethers.jsのArgsオブジェクトは、プロパティ名が数字でないことをチェックすることで、
     		// 引数の名前と値のペアだけを抽出できます。
-    		for (let i = 0; i<args.length;i++) {
+    		for (let i = 0; i < parsed.args.length;i++) {
         		// キーが数字ではない（名前付き引数である）ことを確認
         		let value = args[i];
 				// BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
@@ -52,12 +54,12 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 						value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
 					}
 				}// その他の型（string, bytes32, addressなど）はそのまま格納されます
-				formattedArgs[i] = value;
+				formattedArgs[i] += value;
     		}
 
     		return {
-        		blockNumber: logItem.blockNumber,
-        		transactionHash: logItem.transactionHash,
+        		blockNumber: log.blockNumber,
+        		transactionHash: log.transactionHash,
         		args: formattedArgs // 汎用的な整形済み引数オブジェクト
     		};
 		});
