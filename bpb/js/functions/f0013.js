@@ -30,23 +30,20 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
         toBlock: "latest",
       };
 		const logs = await provider.getLogs(filter);//型「Log」の配列
-      
+      	var resultString = "";
         const parsedLogs = logs.map(log => {
 			try{
         		const parsed = iface.parseLog(log);
 				if (parsed){
-					return {
-						eventName: parsed.name,
-                    	args: parsed.args, // デコードされた引数 (string, BigIntなど)
-                    	logData: log.data, // 元の16進数データも保持
-                    	// 元のlog情報から必要なものを追加
-                    	transactionHash: log.transactionHash
-					};
+					for(int i ;i< parsed.args.length;i++){
+						resultString += parsed.args[i].toString();
+					}
+					return resultString;
 				}
 			} catch (e){
 				console.warn("ログのパースに失敗:", e.message, log.transactionHash);
 			}
-			return null;
+			return ;
       });
 		// 2. filter()で null の要素を除外
     	const validParsedLogs = parsedLogs.filter(item => item !== null);
