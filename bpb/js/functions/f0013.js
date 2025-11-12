@@ -33,7 +33,7 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
       	var resultString = "";
         const parsedLogs = logs.map(log => {
 			try{
-        		const parsed = iface.parseLog(log);
+        		const parsed = iface.parseLog(log).sort((a, b) => b.blockNumber - a.blockNumber);
 				if (parsed){
 					for(int i ;i< parsed.args.length;i++){
 						resultString += parsed.args[i].toString();
