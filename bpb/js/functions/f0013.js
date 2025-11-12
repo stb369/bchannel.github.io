@@ -31,53 +31,36 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
       };
 		const logs = await provider.getLogs(filter);//型「Log」の配列
       	var resultString = "";
-        const parsedLogs = logs.map(log => {
-			try{
-        		const parsed = iface.parseLog(log).sort((a, b) => b.blockNumber - a.blockNumber);
-				if (parsed){
-					for(let i = 0 ;i< parsed.args.length;i++){
-						resultString += parsed.args[i].toString();
-					}
-					return resultString;
-				}
-			} catch (e){
-				console.warn("ログのパースに失敗:", e.message, log.transactionHash);
-			}
-			return ;
-      });
 		// 2. filter()で null の要素を除外
-    	const validParsedLogs = parsedLogs.filter(item => item !== null);
+    	const validParsedLogs = logs.filter(item => item !== null);
 		const extractedLogs = validParsedLogs.map(logItem => {
-    const args = logItem.args;
-    const eventName = logItem.eventName;
+    		const args = logItem.args;
+    		const eventName = logItem.eventName;
     
-    // 💡 汎用的な引数（args）の抽出と整形
-    const formattedArgs = {};
-    
-    // argsオブジェクトを反復処理し、インデックスのない名前付きプロパティのみを抽出する
-    // ethers.jsのArgsオブジェクトは、プロパティ名が数字でないことをチェックすることで、
-    // 引数の名前と値のペアだけを抽出できます。
-    for (const key in args) {
-        // キーが数字ではない（名前付き引数である）ことを確認
-        if (isNaN(Number(key))) { 
-            let value = args[key];
-
-            // BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
-            // ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
-            if (typeof value === 'bigint') {
-                // 汎用的に文字列として格納。後続の処理で用途に合わせて formatUnits を使うことを推奨
-                //value = value.toString(); 
+    		// 💡 汎用的な引数（args）の抽出と整形
+    		const formattedArgs = {};
+    		
+    		// argsオブジェクトを反復処理し、インデックスのない名前付きプロパティのみを抽出する
+    		// ethers.jsのArgsオブジェクトは、プロパティ名が数字でないことをチェックすることで、
+    		// 引数の名前と値のペアだけを抽出できます。
+    		for (const key in args) {
+        		// キーが数字ではない（名前付き引数である）ことを確認
+        		if (isNaN(Number(key))) { 
+            		let value = args[key];
+		            // BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
+        		    // ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
+            		if (typeof value === 'bigint') {
+                	// 汎用的に文字列として格納。後続の処理で用途に合わせて formatUnits を使うことを推奨
+                	//value = value.toString(); 
                 
-                // 🚨 補足: トークン量の場合は formatUnits を使う方が人に優しい
-                if (key.includes("Amount")) {
-                    value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
-                }
-            }
-            // その他の型（string, bytes32, addressなど）はそのまま格納されます
-
-            formattedArgs[key] = value;
-        }
-    }
+                		// 🚨 補足: トークン量の場合は formatUnits を使う方が人に優しい
+                		if (key.includes("Amount")) {
+                    		value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
+                		}
+            		}// その他の型（string, bytes32, addressなど）はそのまま格納されます
+            		formattedArgs[key] = value;
+        		}
+    		}
 
     return {
         eventName: eventName,
