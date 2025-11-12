@@ -50,8 +50,8 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 				// BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
 				// ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
 				if (typeof value === 'bigint') {
-					if (args[i].includes("Amount")) {
-						value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
+					if (parsed.args[i].includes("Amount")) {
+						value = ethers.formatUnits(parsed.args[i], 18); // Decimal 18と仮定
 					}
 				}// その他の型（string, bytes32, addressなど）はそのまま格納されます
 				formattedArgs[i] += value;
