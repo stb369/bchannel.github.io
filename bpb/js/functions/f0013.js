@@ -34,26 +34,28 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 		// 2. filter()で null の要素を除外
     	const validLogs = logs.filter(item => item !== null);
 		const extractedLogs = validLogs.map(log => {
-    		const parsed = iface.parseLog(log);
+    		const parsed = iface.parseLog(log).sort((a, b) => b.blockNumber - a.blockNumber);
     
     		// 💡 汎用的な引数（args）の抽出と整形
     		const formattedArgs = {};
     		if(parsed === null){
           		return null;
         	}
-    		// argsオブジェクトを反復処理し、インデックスのない名前付きプロパティのみを抽出する
-    		// ethers.jsのArgsオブジェクトは、プロパティ名が数字でないことをチェックすることで、
-    		// 引数の名前と値のペアだけを抽出できます。
-    		for (let i = 0; i < parsed.args.length;i++) {
+    		
+			for (const [key, value] of Object.entries(parsed.args)) {
         		// キーが数字ではない（名前付き引数である）ことを確認
-        		let value = parsed.args[i];
 				console.log(i.toString()+"番目:"+parsed.args[i].toString());
 				// BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
 				// ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
-				if (false){//(typeof value === 'bigint') {
-					value = ethers.formatUnits(parsed.args[i], 18); // Decimal 18と仮定
-				}// その他の型（string, bytes32, addressなど）はそのまま格納されます
-				formattedArgs[i] += value.toString();
+				if (typeof value === 'bigint') {
+    				// Number.MAX_SAFE_INTEGER = 9007199254740991
+    				if (value <= BigInt(Number.MAX_SAFE_INTEGER)) {
+        				value = Number(value); // 安全に変換可能
+    				} else {
+    				    value = ethers.formatUnits(value, 18); // Decimal 18と仮定
+    				}
+				}
+				formattedArgs[key] = value.toString();
     		}
 
     		return {
