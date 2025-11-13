@@ -53,7 +53,7 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 				if (false){//(typeof value === 'bigint') {
 					value = ethers.formatUnits(parsed.args[i], 18); // Decimal 18と仮定
 				}// その他の型（string, bytes32, addressなど）はそのまま格納されます
-				formattedArgs[i] += value;
+				formattedArgs[i] += value.toString();
     		}
 
     		return {
