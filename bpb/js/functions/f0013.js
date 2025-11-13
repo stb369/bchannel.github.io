@@ -44,18 +44,21 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
     		
 			for (const [key, value] of Object.entries(parsed.args)) {
         		// キーが数字ではない（名前付き引数である）ことを確認
+				let valueRaw;
 				console.log(key.toString()+":"+value.toString());
 				// BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
 				// ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
 				if (typeof value === 'bigint') {
     				// Number.MAX_SAFE_INTEGER = 9007199254740991
     				if (value <= BigInt(Number.MAX_SAFE_INTEGER)) {
-        				value = Number(value); // 安全に変換可能
+        				valueRaw = Number(value); // 安全に変換可能
     				} else {
-    				    value = ethers.formatUnits(value, 18); // Decimal 18と仮定
+    				    valueRaw = ethers.formatUnits(value, 18); // Decimal 18と仮定
     				}
+				}else{
+					valueRaw = value;
 				}
-				formattedArgs[key] = value.toString();
+				formattedArgs[key] = valueRaw;
     		}
 
     		return {
