@@ -1,9 +1,9 @@
 let contractABI = null;
 let contract, provider;
 
-export default async function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default async function f0015(arg1,arg2,arg3,arg4,arg5,arg6) {
   
-  console.log("f0012 launched");
+  console.log("f0015 launched");
 	const result = await execSolidity(arg1,arg2,arg3);
   return result;
     
@@ -23,7 +23,7 @@ export default async function f0012(arg1,arg2,arg3,arg4,arg5,arg6) {
     }
 
     async function execSolidity(arg1,arg2,arg3) {
-	  await loadABI("./js/functions/11_abi.json");
+	  await loadABI("./js/functions/a0011.json");
       const contract = await getContract(arg1);
       try {
         const tx = await contract.getSpot(arg2,arg3);
