@@ -34,7 +34,7 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 		// 2. filter()で null の要素を除外
     	const validLogs = logs.filter(item => item !== null);
 		const extractedLogs = validLogs.map(log => {
-    		const parsed = iface.parseLog(log).sort((a, b) => b.blockNumber - a.blockNumber);
+    		const parsed = iface.parseLog(log);
     
     		// 💡 汎用的な引数（args）の抽出と整形
     		const formattedArgs = {};
