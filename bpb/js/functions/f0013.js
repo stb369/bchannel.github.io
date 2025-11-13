@@ -4,11 +4,13 @@ let contract, provider;
 export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0013 launched");
-  return execSolidity(arg1,arg2,arg3,arg4);
+  return execSolidity(arg1,arg2,arg3,arg4,arg5,arg6);
 }
     
-
-    async function execSolidity(arg1,arg2,arg3,arg4) {//arg1_address,arg2_abi,arg3_signature,arg4_filter
+	// =========================
+  // ユーティリティ関数
+  // =========================
+    async function execSolidity(arg1,arg2,arg3,arg4,arg5,arg6) {//arg1_address,arg2_abi,arg3_signature,arg4=arg6_filter
 	  if (!window.ethereum) {
         alert("Please install MetaMask");
         return;
@@ -17,15 +19,42 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 	  await loadABI(abipath);
 	  provider = new ethers.BrowserProvider(window.ethereum);
 	  const signature = getSignature(arg3, contractABI);
+  	  const topic0 = ethers.id(signature);
       const iface = new ethers.Interface(contractABI);
-	  const threadId = ethers.id(arg4);//indexe
+
+		const normalizeTopic = (val) => {
+    if (val === undefined || val === null) return null;
+
+    // 文字列 '0' or 数値 0 → null扱い
+    if (val === "0" || val === 0) return null;
+
+    // すでにbytes32形式ならそのまま
+    if (/^0x[0-9a-fA-F]{64}$/.test(val)) return val;
+
+    // 数値 or 数値文字列なら uint256 として扱う
+    if (!isNaN(val)) {
+      const big = BigInt(val);
+      return ethers.zeroPadValue(ethers.toBeHex(big), 32);
+    }
+
+    // 文字列の場合 → bytes32化（keccak256）
+    if (typeof val === "string") {
+      return ethers.id(val);
+    }
+
+    return null;
+  };
+// =========================
+  // ユーティリティ関数終了
+  // =========================
+		
+  	  // --- 各トピック生成 ---
+  	  const topic1 = normalizeTopic(arg4);
+  	  const topic2 = normalizeTopic(arg5);
+  	  const topic3 = normalizeTopic(arg6);
       const filter = {
         address: arg1,
-        topics: [
-          ethers.id(signature), // イベントシグネチャをハッシュ化
-          //iface.getEvent("MessagePosted")?.topic,
-          ethers.zeroPadValue(threadId, 32) // threadIdでフィルタリング。ここをスレッド名のハッシュ値にする
-        ],
+		topics: [topic0, topic1, topic2, topic3],
         fromBlock: 0,
         toBlock: "latest",
       };
