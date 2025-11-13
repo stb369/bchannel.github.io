@@ -28,7 +28,7 @@ export default async function f0015(arg1,arg2,arg3,arg4,arg5,arg6) {
       try {
         const tx = await contract.getArea(arg2,arg3);
 		console.log("tx:",tx);
-		return tx;
+		return Number(tx);
       } catch (err) {
         console.error("getSpot failed: " + err.message);
       }
