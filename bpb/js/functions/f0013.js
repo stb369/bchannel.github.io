@@ -4,11 +4,13 @@ let contract, provider;
 export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0013 launched");
-  return execSolidity(arg1,arg2,arg3,arg4);
+  return execSolidity(arg1,arg2,arg3,arg4,arg5,arg6);
 }
     
-
-    async function execSolidity(arg1,arg2,arg3,arg4) {//arg1_address,arg2_abi,arg3_signature,arg4_filter
+	// =========================
+  // ユーティリティ関数
+  // =========================
+    async function execSolidity(arg1,arg2,arg3,arg4,arg5,arg6) {//arg1_address,arg2_abi,arg3_signature,arg4=arg6_filter
 	  if (!window.ethereum) {
         alert("Please install MetaMask");
         return;
@@ -17,83 +19,88 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
 	  await loadABI(abipath);
 	  provider = new ethers.BrowserProvider(window.ethereum);
 	  const signature = getSignature(arg3, contractABI);
+  	  const topic0 = ethers.id(signature);
       const iface = new ethers.Interface(contractABI);
-	  const threadId = ethers.id(arg4);//indexe
+
+		const normalizeTopic = (val) => {
+    if (val === undefined || val === null) return null;
+
+    // 文字列 '0' or 数値 0 → null扱い
+    if (val === "0" || val === 0) return null;
+
+    // すでにbytes32形式ならそのまま
+    if (/^0x[0-9a-fA-F]{64}$/.test(val)) return val;
+
+    // 数値 or 数値文字列なら uint256 として扱う
+    if (!isNaN(val)) {
+      const big = BigInt(val);
+      return ethers.zeroPadValue(ethers.toBeHex(big), 32);
+    }
+
+    // 文字列の場合 → bytes32化（keccak256）
+    if (typeof val === "string") {
+      return ethers.id(val);
+    }
+
+    return null;
+  };
+// =========================
+  // ユーティリティ関数終了
+  // =========================
+		
+  	  // --- 各トピック生成 ---
+  	  const topic1 = normalizeTopic(arg4);
+  	  const topic2 = normalizeTopic(arg5);
+  	  const topic3 = normalizeTopic(arg6);
       const filter = {
         address: arg1,
-        topics: [
-          ethers.id(signature), // イベントシグネチャをハッシュ化
-          //iface.getEvent("MessagePosted")?.topic,
-          ethers.zeroPadValue(threadId, 32) // threadIdでフィルタリング。ここをスレッド名のハッシュ値にする
-        ],
+		topics: [topic0, topic1, topic2, topic3],
         fromBlock: 0,
         toBlock: "latest",
       };
 		const logs = await provider.getLogs(filter);//型「Log」の配列
-      
-        const parsedLogs = logs.map(log => {
-			try{
-        		const parsed = iface.parseLog(log);
-				if (parsed){
-					return {
-						eventName: parsed.name,
-                    	args: parsed.args, // デコードされた引数 (string, BigIntなど)
-                    	logData: log.data, // 元の16進数データも保持
-                    	// 元のlog情報から必要なものを追加
-                    	transactionHash: log.transactionHash
-					};
-				}
-			} catch (e){
-				console.warn("ログのパースに失敗:", e.message, log.transactionHash);
-			}
-			return null;
-      });
+      	var resultString = "";
 		// 2. filter()で null の要素を除外
-    	const validParsedLogs = parsedLogs.filter(item => item !== null);
-		const extractedLogs = validParsedLogs.map(logItem => {
-    const args = logItem.args;
-    const eventName = logItem.eventName;
+    	const validLogs = logs.filter(item => item !== null);
+		const extractedLogs = validLogs.map(log => {
+    		const parsed = iface.parseLog(log);
     
-    // 💡 汎用的な引数（args）の抽出と整形
-    const formattedArgs = {};
-    
-    // argsオブジェクトを反復処理し、インデックスのない名前付きプロパティのみを抽出する
-    // ethers.jsのArgsオブジェクトは、プロパティ名が数字でないことをチェックすることで、
-    // 引数の名前と値のペアだけを抽出できます。
-    for (const key in args) {
-        // キーが数字ではない（名前付き引数である）ことを確認
-        if (isNaN(Number(key))) { 
-            let value = args[key];
+    		// 💡 汎用的な引数（args）の抽出と整形
+    		const formattedArgs = {};
+    		if(parsed === null){
+          		return null;
+        	}
+    		
+			for (const [key, value] of Object.entries(parsed.args)) {
+        		// キーが数字ではない（名前付き引数である）ことを確認
+				let valueRaw;
+				console.log(key.toString()+":"+value.toString());
+				// BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
+				// ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
+				if (typeof value === 'bigint') {
+    				// Number.MAX_SAFE_INTEGER = 9007199254740991
+    				if (value <= BigInt(Number.MAX_SAFE_INTEGER)) {
+        				valueRaw = Number(value); // 安全に変換可能
+    				} else {
+    				    valueRaw = ethers.formatUnits(value, 18); // Decimal 18と仮定
+    				}
+				}else{
+					valueRaw = value;
+				}
+				formattedArgs[key] = valueRaw;
+    		}
 
-            // BigIntの場合、精度を保つために文字列に変換するか、そのまま残すか選択します。
-            // ここでは扱いやすいように文字列に変換（必要に応じてethers.formatUnitsで変換）
-            if (typeof value === 'bigint') {
-                // 汎用的に文字列として格納。後続の処理で用途に合わせて formatUnits を使うことを推奨
-                //value = value.toString(); 
-                
-                // 🚨 補足: トークン量の場合は formatUnits を使う方が人に優しい
-                if (key.includes("Amount")) {
-                    value = ethers.formatUnits(args[key], 18); // Decimal 18と仮定
-                }
-            }
-            // その他の型（string, bytes32, addressなど）はそのまま格納されます
+    		return {
+        		blockNumber: log.blockNumber,
+        		transactionHash: log.transactionHash,
+        		args: formattedArgs // 汎用的な整形済み引数オブジェクト
+    		};
+		});
 
-            formattedArgs[key] = value;
-        }
-    }
-
-    return {
-        eventName: eventName,
-        transactionHash: logItem.transactionHash,
-        args: formattedArgs // 汎用的な整形済み引数オブジェクト
-    };
-});
-
-console.log("汎用的に抽出・整形されたログ:", extractedLogs);
-
-// 戻り値は抽出・整形されたログの配列に変更
-return extractedLogs;
-    }
+	console.log("汎用的に抽出・整形されたログ:", extractedLogs);
+	// 戻り値は抽出・整形されたログの配列に変更
+	return JSON.stringify(extractedLogs, null, 2);
+}
 
 function getSignature(arg3, abiJson){
 	  const Event = abiJson.find(item => item.name === arg3);
