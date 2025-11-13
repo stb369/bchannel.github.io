@@ -68,11 +68,10 @@ export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
     		};
 		});
 
-console.log("汎用的に抽出・整形されたログ:", extractedLogs);
-
-// 戻り値は抽出・整形されたログの配列に変更
-return extractedLogs;
-    }
+	console.log("汎用的に抽出・整形されたログ:", extractedLogs);
+	// 戻り値は抽出・整形されたログの配列に変更
+	return JSON.stringify(extractedLogs, null, 2);
+}
 
 function getSignature(arg3, abiJson){
 	  const Event = abiJson.find(item => item.name === arg3);
