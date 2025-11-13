@@ -29,7 +29,7 @@ export default async function f0014(arg1,arg2,arg3,arg4,arg5,arg6) {
 		
 		const scale = await contract.SCALE();
         const tx = await contract.getPlayerPosition();//txは配列になる
-		if(Math.abs(Number(tx[0])) >= Number(scale) || Math.abs(Number(tx[1])) >= Number(scale)){
+		if(Math.abs(Number(tx[0])) >= Number(scale/2) || Math.abs(Number(tx[1])) >= Number(scale/2)){
 			//初期化できてないのでinitializeを呼ぶ必要がある
 			await contract.InitializePlayerPosition();//txは配列になる
 			const tx2 = [0,0];
