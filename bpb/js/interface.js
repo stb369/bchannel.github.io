@@ -14,31 +14,41 @@ hoge = function() {
         
             //非同期処理
             let functionMeta;
-            fetch('./js/functions.json').then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json(); // JSONとしてパース
-  }).then(data => {console.log("data: " + data[methodName]); functionMeta = data[methodName]}).then(data => {
-            const filePath = functionMeta;//functionMetaに格納する時点でvalue値にする
+            const response = await fetch('./js/functions.json');
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+            console.log("data: " + data[methodName]);
+            functionMeta = data[methodName];
+            const filePath = functionMeta;
+            console.log("filepath '" + filePath + "'");
             if (!filePath) {
                 console.warn(`メソッド "${methodName}" に対応するファイルが見つかりません。`);
             return;
             }
-
-            console.log("filepath '" + filePath + "'");
-            // 動的にファイルをインポートして関数を実行
-            //const {module} = import(filePath);
-            import(filePath).then((myModule) => {
-                if (myModule.default && typeof myModule.default === 'function'){
-                    myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+            const myModule = await import(filePath);
+            if (myModule.default && typeof myModule.default === 'function'){
+                    const result = await myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
+                    if(typeof result == 'string'){
+                        if(typeof window.InterfaceCS !== "undefined" && window.InterfaceCS?.SendMessage){
+                            window.InterfaceCS.SendMessage(result);
+                        }else{
+                            // ✅ Unity Editor上での通信
+                            fetch("http://localhost:5005/", {
+                              method: "POST",
+                              headers: { "Content-Type": "text/plain" },
+                              body: result,
+                            }).catch(err => console.error("Unity Editorへの送信失敗:", err));
+  
+                        }
+                        
+                    }else{
+                        console.log("result is not string:", result);
+                    }
                 }else{
                     console.log("module error");
                 }
-                //module(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
-            });
             
-    });
+            
         },
         // 受け取ったメッセージから、evalを使って関数を呼び出す
         ExecuteJs: function(message) {
