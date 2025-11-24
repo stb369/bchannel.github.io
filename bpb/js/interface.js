@@ -5,11 +5,10 @@ hoge = function() {
     return {
         // Unityからのメッセージを受け取るハンドラ登録
         InitializationEventListener: function(callbackGameObjectName) {
-            console.log('InitializationEventListener called');
+            console.log('InitializationEventListener called',callbackGameObjectName);
             window.addEventListener('message', function(event) {
                 hoge.ExecuteJs(event.data);
               }, false);
-            
             window.InterfaceCS.SendMessage(callbackGameObjectName,"OnEventLog","JSInjectionCompleted:true");
           },
         FetchJS: async function(methodName, parameterObject, callbackGameObjectName){
