@@ -10,7 +10,7 @@ hoge = function() {
                 hoge.ExecuteJs(event.data);
               }, false);
           },
-        FetchJS: async function(methodName, parameterObject){
+        FetchJS: async function(methodName, parameterObject, callbackGameObjectName){
         
             //非同期処理
             let functionMeta;
@@ -30,7 +30,7 @@ hoge = function() {
                     const result = await myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
                     if(typeof result == 'string'){
                         if(typeof window.InterfaceCS !== "undefined" && window.InterfaceCS?.SendMessage){
-                            window.InterfaceCS.SendMessage(parameterObject,"OnEventLog",result);
+                            window.InterfaceCS.SendMessage(callbackGameObjectName,"OnEventLog",result);
                         }else{
                             // ✅ Unity Editor上での通信
                             fetch("http://localhost:5005/", {
@@ -59,11 +59,11 @@ hoge = function() {
             }
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
-            var callbackObjectName = parameterObject.CallbackGameObjectName;
+            var callbackGameObjectName = parameterObject.CallbackGameObjectName;
             // メタデータから対応するファイルパスを取得
-            console.log('methodName:'+methodName);
+            console.log('methodName:'+methodName + "¥ncallbackGameObjectName: "+callbackGameObjectName);
             (async () => {
-                await hoge.FetchJS(methodName, parameterObject);
+                await hoge.FetchJS(methodName, parameterObject,callbackGameObjectName);
             })();
         },
         
