@@ -113,8 +113,8 @@
           });
 
           window.InterfaceCS = {
-            SendMessage: (msg) => {
-              unityInstance.SendMessage(config.companyName, config.productName, msg);
+            SendMessage: (objectName, methodName, value) => {
+              unityInstance.SendMessage(objectName, methodName, value);
             },
           };
 
