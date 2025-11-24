@@ -26,7 +26,15 @@ export default async function f0014(arg1,arg2,arg3,arg4,arg5,arg6) {
 	  await loadABI("./js/functions/a0011.json");
       const contract = await getContract(arg1);
       try {
-        const tx = await contract.getPlayerPosition();
+		
+		const scale = await contract.SCALE();
+        const tx = await contract.getPlayerPosition();//txは配列になる
+		if(Math.abs(Number(tx[0])) >= Number(scale)/2 || Math.abs(Number(tx[1])) >= Number(scale)/2){
+			//初期化できてないのでinitializeを呼ぶ必要がある
+			await contract.InitializePlayerPosition();//txは配列になる
+			const tx2 = [0,0];
+			return tx2.toString();
+		}
 		console.log("tx:",tx);
 		return tx.toString();
       } catch (err) {

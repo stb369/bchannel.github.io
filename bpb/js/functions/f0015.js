@@ -26,9 +26,9 @@ export default async function f0015(arg1,arg2,arg3,arg4,arg5,arg6) {
 	  await loadABI("./js/functions/a0011.json");
       const contract = await getContract(arg1);
       try {
-        const tx = await contract.getSpot(arg2,arg3);
+        const tx = await contract.getArea(arg2,arg3);
 		console.log("tx:",tx);
-		return tx;
+		return Number(tx);
       } catch (err) {
         console.error("getSpot failed: " + err.message);
       }
