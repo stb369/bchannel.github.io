@@ -1,10 +1,10 @@
 let contractABI = null;
 let contract, provider;
 
-export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0006 launched");
-  mintTokens(arg1,arg2,arg3);
+  await mintTokens(arg1,arg2,arg3);
     
 }
     async function getContract(arg1) {
