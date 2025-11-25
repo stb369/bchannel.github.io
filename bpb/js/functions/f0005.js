@@ -663,7 +663,7 @@ const contractAddress = "0xYourBimboGummyAddress"; // ← 自分のデプロイ�
 
     let contract, provider;
 
-export default function f0005(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default async function f0005(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0005 launched");
   mintTokens(arg1,arg2,arg3);
