@@ -28,7 +28,7 @@ export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       const amount = arg3;//uint[]
       const bigamount = ethers.parseUnits(amount, 18);
 		console.log("amount:",bigamount);
-		console.log("amountType:",(typeof result));
+		console.log("amountType:",(typeof bigamount));
       try {
         const tx = await contract.mintResourceToken([tokenId], [amount]);
         console.log("Mint TX:", tx.hash);
