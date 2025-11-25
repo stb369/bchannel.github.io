@@ -1,10 +1,11 @@
 let contractABI = null;
 let contract, provider;
 
-export default function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default async function f0013(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0013 launched");
-  return execSolidity(arg1,arg2,arg3,arg4,arg5,arg6);
+  const result = await execSolidity(arg1,arg2,arg3,arg4,arg5,arg6);
+  return result
 }
     
 	// =========================
