@@ -5,7 +5,7 @@ export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0006 launched");
   await mintTokens(arg1,arg2,arg3);
-    
+  return "ResourceTokenMintSuccessful";
 }
     async function getContract(arg1) {
       if (!window.ethereum) {
