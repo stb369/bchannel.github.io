@@ -26,7 +26,7 @@ export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       const contract = await getContract(arg1);
       const tokenId = arg2;//uint[]
       const amount = arg3;//uint[]
-      const bigamount = ethers.parseUnits(amount[i], 18);
+      const bigamount = ethers.parseUnits(amount, 18);
 		console.log("amount:",bigamount);
 		console.log("amountType:",(typeof result));
       try {
