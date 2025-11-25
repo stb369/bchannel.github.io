@@ -24,8 +24,10 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
     async function execSolidity(arg1,arg2,arg3,arg4,arg5,arg6) {
 	  await loadABI("./js/functions/a0011.json");
       const contract = await getContract(arg1);
-      const tokenIdA = arg4 / 1000;
+      const tokenIdA = Math.floor(arg4 / 1000);//これがfloatになってる
       const tokenIdB = arg4 % 1000;
+		//console.log("tokenIdAs type:",(typeof tokenIdA));
+		//console.log("tokenIdBs type:",(typeof tokenIdB));
       try {
         const tx = await contract.initPool(arg2,arg3,tokenIdA,tokenIdB,ethers.parseUnits(arg5, 18),ethers.parseUnits(arg6, 18));
         console.log("Mint TX:", tx.hash);
