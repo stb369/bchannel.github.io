@@ -26,13 +26,11 @@ export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       const contract = await getContract(arg1);
       const tokenId = arg2;//uint[]
       const amount = arg3;//uint[]
-      for(let i = 0; i<amount.length; i ++){
-        amount[i] = ethers.parseUnits(amount[i], 18);
-      }
-		console.log("tokenId:",tokenId);
-		console.log("amount:",amount);
+      const bigamount = ethers.parseUnits(amount[i], 18);
+		console.log("amount:",bigamount);
+		console.log("amountType:",(typeof result));
       try {
-        const tx = await contract.mintResourceToken(tokenId, amount);
+        const tx = await contract.mintResourceToken([tokenId], [amount]);
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("Mint successful!");
