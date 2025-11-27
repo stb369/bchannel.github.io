@@ -17,7 +17,7 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       contract = new ethers.Contract(arg1, contractABI, signer);
-      listenToEvents();
+      //listenToEvents();
       return contract;
     }
 
