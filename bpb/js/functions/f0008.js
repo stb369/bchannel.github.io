@@ -26,10 +26,14 @@ export default function f0008(arg1,arg2,arg3,arg4,arg5,arg6) {
       const contract = await getContract(arg1);
       const tokenIdA = Math.floor(arg4 / 1000);//これがfloatになってる
       const tokenIdB = arg4 % 1000;
-		//console.log("tokenIdAs type:",(typeof tokenIdA));
-		//console.log("tokenIdBs type:",(typeof tokenIdB));
+	  const tokenAmountA = ethers.parseUnits(arg5, 18);
+	  const tokenAmountB = ethers.parseUnits(arg6, 18);
+		console.log("tokenIdAs type:",(typeof tokenIdA));
+		console.log("tokenIdBs type:",(typeof tokenIdB));
+		console.log("tokenA amount:", tokenAmountA);
+		console.log("tokenB amount:", tokenAmountB);
       try {
-        const tx = await contract.initPool(arg2,arg3,tokenIdA,tokenIdB,ethers.parseUnits(arg5, 18),ethers.parseUnits(arg6, 18));
+        const tx = await contract.initPool(arg2,arg3,tokenIdA,tokenIdB,tokenAmountA,tokenAmountB);
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("✅ Mint successful!");
