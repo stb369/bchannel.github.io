@@ -30,7 +30,7 @@ export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
 		console.log("amount:",bigamount);
 		console.log("amountType:",(typeof bigamount));
       try {
-        const tx = await contract.mintResourceToken([tokenId], [amount]);
+        const tx = await contract.mintResourceToken([tokenId], [bigamount]);
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("Mint successful!");
