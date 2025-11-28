@@ -1,9 +1,9 @@
 const cacheName = "InterfaceJSLib-OnEventLog-0.1.1";
 const contentToCache = [
-    "Build/0a5aa3b5a189238fa8e08c7a2c11bd51.loader.js",
+    "Build/ab8ff1852d8951387acdefbcecd6a5ec.loader.js",
     "Build/117239a61bac04cd0c7b0ec20275ce46.framework.js.unityweb",
-    "Build/8c0365ba72363d60586f5a49b6824111.data.unityweb",
-    "Build/eea57fc9349df8f8c690d54dd8316acc.wasm.unityweb",
+    "Build/37e4f1a621e61d3d4fa322ed945169d2.data.unityweb",
+    "Build/276c91aac8cc504cdb8a439b5c9d9089.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
