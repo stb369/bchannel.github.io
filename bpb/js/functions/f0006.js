@@ -1,12 +1,11 @@
 let contractABI = null;
 let contract, provider;
 
-export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
+export default async function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
   
   console.log("f0006 launched");
-  await loadABI("./js/functions/11_abi.json");
-  mintTokens(arg1,arg2,arg3);
-    
+  await mintTokens(arg1,arg2,arg3);
+  return "ResourceTokenMintSuccessful";
 }
     async function getContract(arg1) {
       if (!window.ethereum) {
@@ -16,24 +15,22 @@ export default function f0006(arg1,arg2,arg3,arg4,arg5,arg6) {
       //provider = new ethers.providers.Web3Provider(window.ethereum);
 		provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
       contract = new ethers.Contract(arg1, contractABI, signer);
       listenToEvents();
       return contract;
     }
 
     async function mintTokens(arg1,arg2,arg3) {
-	  await loadABI("./ABI_11.json");
+	  await loadABI("./js/functions/a0011.json");
       const contract = await getContract(arg1);
       const tokenId = arg2;//uint[]
       const amount = arg3;//uint[]
-      for(let i = 0; i<amount.length; i ++){
-        amount[i] = ethers.parseUnits(amount[i], 18);
-      }
-		console.log("tokenId:",tokenId);
-		console.log("amount:",amount);
+      const bigamount = ethers.parseUnits(amount, 18);
+		console.log("amount:",bigamount);
+		console.log("amountType:",(typeof bigamount));
       try {
-        const tx = await contract.mintResourceToken(tokenId, amount);
+        const tx = await contract.mintResourceToken([tokenId], [bigamount]);
         console.log("Mint TX:", tx.hash);
         await tx.wait();
         alert("Mint successful!");

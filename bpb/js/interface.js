@@ -4,13 +4,15 @@
 hoge = function() {
     return {
         // Unityからのメッセージを受け取るハンドラ登録
-        InitializationEventListener: function() {
+        InitializationEventListener: function(callbackGameObjectName) {
             console.log('InitializationEventListener called');
             window.addEventListener('message', function(event) {
                 hoge.ExecuteJs(event.data);
               }, false);
+            
+            window.InterfaceCS.SendMessage(callbackGameObjectName,"OnEventLog","JSInjectionCompleted:true");
           },
-        FetchJS: async function(methodName, parameterObject){
+        FetchJS: async function(methodName, parameterObject, callbackGameObjectName){
         
             //非同期処理
             let functionMeta;
@@ -28,22 +30,25 @@ hoge = function() {
             const myModule = await import(filePath);
             if (myModule.default && typeof myModule.default === 'function'){
                     const result = await myModule.default(parameterObject.arg1,parameterObject.arg2,parameterObject.arg3,parameterObject.arg4,parameterObject.arg5,parameterObject.arg6); // デフォルトエクスポートされた関数を実行
-                    if(typeof result == 'string'){
-                        if(typeof window.InterfaceCS !== "undefined" && window.InterfaceCS?.SendMessage){
-                            window.InterfaceCS.SendMessage(result);
+                    let resultString;
+                    if(typeof result != 'string')
+                    {
+                        console.log("result is not string:", result);
+                        resultString = result.toString();
+                    }else{
+                        resultString = result;
+                    }
+                    if(typeof window.InterfaceCS !== "undefined" && window.InterfaceCS?.SendMessage){
+                            window.InterfaceCS.SendMessage(callbackGameObjectName,"OnEventLog",resultString);
                         }else{
                             // ✅ Unity Editor上での通信
                             fetch("http://localhost:5005/", {
                               method: "POST",
                               headers: { "Content-Type": "text/plain" },
-                              body: result,
+                              body: resultString,
                             }).catch(err => console.error("Unity Editorへの送信失敗:", err));
   
                         }
-                        
-                    }else{
-                        console.log("result is not string:", result);
-                    }
                 }else{
                     console.log("module error");
                 }
@@ -59,10 +64,11 @@ hoge = function() {
             }
             var parameterObject = JSON.parse(message);
             var methodName = parameterObject.MethodName;
+            var callbackGameObjectName = parameterObject.CallbackGameObjectName;
             // メタデータから対応するファイルパスを取得
-            console.log('methodName:'+methodName);
+            console.log('methodName:'+methodName + "¥ncallbackGameObjectName: "+callbackGameObjectName);
             (async () => {
-                await hoge.FetchJS(methodName, parameterObject);
+                await hoge.FetchJS(methodName, parameterObject,callbackGameObjectName);
             })();
         },
         
