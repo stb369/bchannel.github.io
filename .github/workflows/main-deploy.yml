@@ -81,15 +81,12 @@ jobs:
       # 3.3. HTML マージとスクリプト挿入 (Node.jsで実行)
       - name: Run HTML Merge Script
         run: node ./bpb2-vitereact/scripts/merge_unity_vite.js
-        # 💡 merge_unity_vite.js が './bpb2-vitereact/dist/index.html' と
-        #    './deploy_target/bpb2/index.html' を処理するようにパスを調整するか、
-        #    スクリプトを一時的にコピーして実行する必要があります。
-        #    ここでは、merge_unity_vite.js がターゲットディレクトリのファイルを直接処理すると仮定。
         working-directory: ./bpb2-vitereact
         env:
-          # 💡 スクリプト内で参照できるよう環境変数でパスを渡す
-          UNITY_BUILD_PATH: ../deploy_target/bpb2/index.html
-          VITE_BUILD_PATH: ./bpb2/index.html
+          # 💡 スクリプト内で参照できるよう環境変数でパスを渡す# 最終的な Unity HTML ファイル（上書きされるファイル）の場所
+          FINAL_HTML_PATH: ${{ github.workspace }}/deploy_target/bpb2/index.html
+          # Vite ビルド HTML（スクリプトタグ取得元）の場所
+          VITE_SOURCE_PATH: ${{ github.workspace }}/bpb2-vitereact/bpb2/index.html
 
       # --- 4. GitHub Pages へのデプロイ ---
       - name: Deploy to GitHub Pages (bpb2 subdirectory)
