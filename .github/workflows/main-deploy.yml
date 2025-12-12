@@ -1,0 +1,100 @@
+# リポジトリ: bchannel.github.io
+# ファイル名: .github/workflows/main-deploy.yml
+name: Full Unity & Vite Deployment
+
+on:
+  repository_dispatch: # 💡 外部リポジトリからのトリガーを受け付ける
+    types: [start-full-deploy]
+  workflow_dispatch: # 💡 手動実行も可能にする
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- 0. ワークスペースの準備 ---
+      - name: Checkout bchannel.github.io (Target)
+        uses: actions/checkout@v4
+        with:
+          path: deploy_target
+          
+      # --- 1. Unity プロジェクトのビルド ---
+      - name: Checkout bpb2-system (Source 1)
+        uses: actions/checkout@v4
+        with:
+          repository: stb369/BpB2-System
+          path: BpB2-System
+          token: ${{ secrets.PAGES_TOKEN }} # PATを使用してプライベートリポジトリも可能
+
+      - name: Cache Unity
+        uses: actions/cache@v4
+        with:
+          path: BpB2-System/Library
+          key: ${{ runner.os }}-unity-${{ hashFiles('bpb2-system/Assets/**') }}
+
+      - name: Build Unity WebGL
+        uses: game-ci/unity-builder@v4
+        with:
+          # 💡 Unityバージョンはプロジェクトに合わせてください
+          unityVersion: 6000.2.14f1 
+          targetPlatform: WebGL
+          # 💡 ビルド成果物を一時ディレクトリに保存
+          buildPath: ./BpB2-System/Build/WebGL
+          
+      # --- 2. Vite+React プロジェクトのビルド ---
+      - name: Checkout bpb2-vitereact (Source 2)
+        uses: actions/checkout@v4
+        with:
+          repository: stb369/bpb2-vitereact
+          path: bpb2-vitereact
+          token: ${{ secrets.PAGES_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+          
+      - name: Build Vite+React
+        run: pnpm run build
+        working-directory: ./bpb2-vitereact
+
+      # --- 3. 成果物の統合とマージ ---
+      # 💡 ターゲットディレクトリを準備
+      - name: Prepare Deployment Directory
+        run: |
+          mkdir -p ./deploy_target/bpb2
+          
+      # 3.1. Unity ビルド成果物 (母体) をコピー
+      - name: Copy Unity Build to Target
+        run: cp -r ./BpB2-System/Build/WebGL/* ./deploy_target/bpb2/
+
+      # 3.2. Vite ビルドの assets フォルダを上書きコピー
+      - name: Copy Vite Assets (Overwrite)
+        run: cp -r ./bpb2-vitereact/bpb2/assets ./deploy_target/bpb2/
+
+      # 3.3. HTML マージとスクリプト挿入 (Node.jsで実行)
+      - name: Run HTML Merge Script
+        run: node ./bpb2-vitereact/scripts/merge_unity_vite.js
+        # 💡 merge_unity_vite.js が './bpb2-vitereact/dist/index.html' と
+        #    './deploy_target/bpb2/index.html' を処理するようにパスを調整するか、
+        #    スクリプトを一時的にコピーして実行する必要があります。
+        #    ここでは、merge_unity_vite.js がターゲットディレクトリのファイルを直接処理すると仮定。
+        working-directory: ./bpb2-vitereact
+        env:
+          # 💡 スクリプト内で参照できるよう環境変数でパスを渡す
+          UNITY_BUILD_PATH: ../deploy_target/bpb2/index.html
+          VITE_BUILD_PATH: ./bpb2/index.html
+
+      # --- 4. GitHub Pages へのデプロイ ---
+      - name: Deploy to GitHub Pages (bpb2 subdirectory)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PAGES_TOKEN }}
+          publish_dir: ./deploy_target # bchannel.github.io のルート
+          destination_dir: bpb2 # bchannel.github.io/bpb2 にデプロイ
