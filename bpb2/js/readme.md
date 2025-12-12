@@ -1,1 +1,0 @@
-bpb_masterのfunctionMappingに一覧が記載
