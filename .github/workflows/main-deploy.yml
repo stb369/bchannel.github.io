@@ -39,7 +39,7 @@ jobs:
           unityVersion: 6000.2.14f1 
           targetPlatform: WebGL
           # 💡 ビルド成果物を一時ディレクトリに保存
-          buildPath: ./BpB2-System/Build/WebGL
+          buildsPath: ./BpB2-System/Build/WebGL
           
       # --- 2. Vite+React プロジェクトのビルド ---
       - name: Checkout bpb2-vitereact (Source 2)
