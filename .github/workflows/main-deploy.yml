@@ -25,6 +25,7 @@ jobs:
           repository: stb369/BpB2-System
           path: BpB2-System
           token: ${{ secrets.PAGES_TOKEN }} # PATを使用してプライベートリポジトリも可能
+          fetch-depth: 0 # 💡 【重要】リポジトリの全履歴をフェッチするように指示
 
       - name: Cache Unity
         uses: actions/cache@v4
