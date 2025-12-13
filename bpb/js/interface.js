@@ -8,9 +8,10 @@ hoge = function() {
             console.log('InitializationEventListener called');
             window.addEventListener('message', function(event) {
                 console.log("unity origin:"+event.origin+
-                            "\nweb origin"+window.location.origin+
-                           "\nmessage"+event.message+
-                            "\ntransfer"+event.transfer
+                            "\nweb origin:"+window.location.origin+
+                           "\nmessage:"+event.message+
+                            "\ntransfer:"+event.transfer+
+                            "\ndata:"+event.data
                            )
                 hoge.ExecuteJs(event.data);
               }, false);
