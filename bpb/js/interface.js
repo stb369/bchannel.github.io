@@ -7,6 +7,11 @@ hoge = function() {
         InitializationEventListener: function(callbackGameObjectName) {
             console.log('InitializationEventListener called');
             window.addEventListener('message', function(event) {
+                console.log("unity origin:"+event.origin+
+                            "\nweb origin"+window.location.origin+
+                           "\nmessage"+event.message+
+                            "\ntransfer"+event.transfer
+                           )
                 hoge.ExecuteJs(event.data);
               }, false);
             
