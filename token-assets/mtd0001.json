@@ -1,0 +1,15 @@
+{
+  "name": "energy",
+  "symbol": "ENERGY",
+  "description": "The source of all tokens and all life. Claimable every 24 hours.",
+  "image": "https://stb369.github.io/bchannel.github.io/token-assets/img0001.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://stb369.github.io/bchannel.github.io/token-assets/img0001.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}
