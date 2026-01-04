@@ -1,0 +1,15 @@
+{
+  "name": "water",
+  "symbol": "WATER",
+  "description": "One of the basic resource tokens.",
+  "image": "https://stb369.github.io/bchannel.github.io/token-assets/img0007.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://stb369.github.io/bchannel.github.io/token-assets/img0007.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

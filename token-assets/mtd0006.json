@@ -1,0 +1,15 @@
+{
+  "name": "diamond",
+  "symbol": "DIAMOND",
+  "description": "One of the basic resource tokens. Highest-grade rarity.",
+  "image": "https://stb369.github.io/bchannel.github.io/token-assets/img0006.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://stb369.github.io/bchannel.github.io/token-assets/img0006.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

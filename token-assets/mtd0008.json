@@ -1,0 +1,15 @@
+{
+  "name": "lava",
+  "symbol": "LAVA",
+  "description": "One of the basic resource tokens.",
+  "image": "https://stb369.github.io/bchannel.github.io/token-assets/img0008.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://stb369.github.io/bchannel.github.io/token-assets/img0008.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

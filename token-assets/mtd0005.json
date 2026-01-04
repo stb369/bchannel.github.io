@@ -1,0 +1,15 @@
+{
+  "name": "iron",
+  "symbol": "IRON",
+  "description": "One of the basic resource tokens.",
+  "image": "https://stb369.github.io/bchannel.github.io/token-assets/img0005.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://stb369.github.io/bchannel.github.io/token-assets/img0005.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

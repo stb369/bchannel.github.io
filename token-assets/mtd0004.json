@@ -1,0 +1,15 @@
+{
+  "name": "stone",
+  "symbol": "STONE",
+  "description": "One of the basic resource tokens.",
+  "image": "https://stb369.github.io/bchannel.github.io/token-assets/img0004.png",
+  "attributes": [],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://stb369.github.io/bchannel.github.io/token-assets/img0004.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}
