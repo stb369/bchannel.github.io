@@ -290,3 +290,35 @@
     width: 180px;
   }
 }
+
+@media (max-width: 600px) {
+  .header {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .searchBar {
+    width: 140px;
+  }
+
+  .btnDocs {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  .searchBar {
+    width: 120px;
+  }
+
+  .btnConnect,
+  .btnWallet {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
