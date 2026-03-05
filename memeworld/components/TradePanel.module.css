@@ -1,0 +1,259 @@
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  position: sticky;
+  top: 90px;
+}
+
+/* ── Panel header ── */
+.panelHeader {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panelTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+.slippage {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.slippage span {
+  color: var(--accent3);
+}
+
+/* ── Buy / Sell tabs ── */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-bottom: 2px solid transparent;
+}
+
+.activeBuy {
+  color: var(--up);
+  border-bottom-color: var(--up);
+  background: rgba(0, 255, 136, 0.04);
+}
+
+.activeSell {
+  color: var(--down);
+  border-bottom-color: var(--down);
+  background: rgba(255, 60, 60, 0.04);
+}
+
+/* ── Body ── */
+.body {
+  padding: 20px;
+}
+
+/* ── Selected token display ── */
+.selectedToken {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.stIcon {
+  font-size: 24px;
+}
+
+.stInfo {
+  flex: 1;
+}
+
+.stSymbol {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stPrice {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.stChange {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.up {
+  color: var(--up);
+}
+
+.down {
+  color: var(--down);
+}
+
+/* ── Amount input ── */
+.inputGroup {
+  margin-bottom: 12px;
+}
+
+.inputLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.maxBtn {
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.inputWrap {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.inputWrap:focus-within {
+  border-color: var(--accent);
+}
+
+.input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 11px 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  min-width: 0;
+}
+
+.currency {
+  padding: 11px 14px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 12px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+
+/* ── Quick amount buttons ── */
+.quickAmounts {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.quickBtn {
+  flex: 1;
+  padding: 7px 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.quickBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0, 255, 136, 0.04);
+}
+
+/* ── Trade info summary ── */
+.tradeInfo {
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 11px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  color: var(--muted);
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.row span:last-child {
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+}
+
+.warn {
+  color: var(--accent3) !important;
+}
+
+/* ── Execute button ── */
+.executeBtn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.execBuy {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  color: #000;
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.25);
+}
+
+.execBuy:hover {
+  box-shadow: 0 4px 30px rgba(0, 255, 136, 0.45);
+  transform: translateY(-1px);
+}
+
+.execSell {
+  background: linear-gradient(135deg, #ff3c3c, #cc0000);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(255, 60, 60, 0.25);
+}
+
+.execSell:hover {
+  box-shadow: 0 4px 30px rgba(255, 60, 60, 0.45);
+  transform: translateY(-1px);
+}

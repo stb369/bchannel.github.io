@@ -1,0 +1,104 @@
+.feed {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+/* ── Feed header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  background: var(--up);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--up);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ── Scrollable body ── */
+.body {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+/* ── Feed item ── */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  border-bottom: 1px solid rgba(30, 45, 61, 0.5);
+  font-size: 11px;
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+/* ── Type badge ── */
+.type {
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.buy {
+  background: rgba(0, 255, 136, 0.14);
+  color: var(--up);
+}
+
+.sell {
+  background: rgba(255, 60, 60, 0.14);
+  color: var(--down);
+}
+
+/* ── Details ── */
+.details {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tokenName {
+  color: var(--text);
+  font-weight: 500;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+}
+
+.sub {
+  color: var(--muted);
+}
+
+.time {
+  color: var(--muted);
+  font-size: 10px;
+  flex-shrink: 0;
+}
