@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useWeb3React } from '@web3-react/core'
 import { TOKENS, formatPrice } from '../data/tokens'
 import type { Token, FilterOption } from '../types'
 import Header from '../components/Header'
@@ -40,10 +41,12 @@ function MiniChart({ up, seed }: MiniChartProps) {
 }
 
 export default function App() {
+  const { account, connector } = useWeb3React()
+  const wallet = account ?? null
+
   const [searchQuery, setSearchQuery]     = useState<string>('')
   const [activeFilter, setActiveFilter]   = useState<FilterOption>('ALL')
   const [selectedToken, setSelectedToken] = useState<Token>(TOKENS[0])
-  const [wallet, setWallet]               = useState<string | null>(null)
   const [showWallet, setShowWallet]       = useState<boolean>(false)
 
   const filteredTokens = useMemo<Token[]>(() => {
@@ -64,13 +67,14 @@ export default function App() {
     })
   }, [searchQuery, activeFilter])
 
-  const handleConnect = (addr: string): void => {
-    setWallet(addr)
-    setShowWallet(false)
-  }
-
   const handleDisconnect = (): void => {
-    if (window.confirm('ウォレットを切断しますか？')) setWallet(null)
+    if (window.confirm('ウォレットを切断しますか？')) {
+      if (connector.deactivate) {
+        void connector.deactivate()
+      } else {
+        connector.resetState()
+      }
+    }
   }
 
   return (
@@ -197,7 +201,6 @@ export default function App() {
       {showWallet && (
         <WalletModal
           onClose={() => setShowWallet(false)}
-          onConnect={handleConnect}
         />
       )}
     </div>
