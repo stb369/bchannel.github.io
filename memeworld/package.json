@@ -17,7 +17,9 @@
     "@web3-react/core": "8.2.3",
     "@web3-react/eip1193": "8.2.3",
     "@web3-react/metamask": "8.2.4",
+    "@web3-react/types": "^8.2.3",
     "@web3-react/walletconnect-v2": "8.5.1",
+    "ethers": "^6.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
