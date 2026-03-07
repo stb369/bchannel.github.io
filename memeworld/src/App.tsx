@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { TOKENS, formatPrice } from '../data/tokens'
 import type { Token, FilterOption } from '../types'
 import Header from '../components/Header'
@@ -7,7 +6,6 @@ import Ticker from '../components/Ticker'
 import TokenCard from '../components/TokenCard'
 import TradePanel from '../components/TradePanel'
 import LiveFeed from '../components/LiveFeed'
-import WalletModal from '../components/WalletModal'
 import MemeTokenList from '../components/MemeTokenList'
 import styles from './App.module.css'
 
@@ -42,13 +40,9 @@ function MiniChart({ up, seed }: MiniChartProps) {
 }
 
 export default function App() {
-  const { account, connector } = useWeb3React()
-  const wallet = account ?? null
-
   const [searchQuery, setSearchQuery]     = useState<string>('')
   const [activeFilter, setActiveFilter]   = useState<FilterOption>('ALL')
   const [selectedToken, setSelectedToken] = useState<Token>(TOKENS[0])
-  const [showWallet, setShowWallet]       = useState<boolean>(false)
 
   const filteredTokens = useMemo<Token[]>(() => {
     const q = searchQuery.trim().toLowerCase()
@@ -68,16 +62,6 @@ export default function App() {
     })
   }, [searchQuery, activeFilter])
 
-  const handleDisconnect = (): void => {
-    if (window.confirm('ウォレットを切断しますか？')) {
-      if (connector.deactivate) {
-        void connector.deactivate()
-      } else {
-        connector.resetState()
-      }
-    }
-  }
-
   return (
     <div className={styles.app}>
       <div className={styles.bgGrid} />
@@ -87,8 +71,8 @@ export default function App() {
       <Header
         searchQuery={searchQuery}
         onSearch={setSearchQuery}
-        wallet={wallet}
-        onConnect={wallet ? handleDisconnect : () => setShowWallet(true)}
+        wallet={null}
+        onConnect={() => {}}
       />
       <Ticker />
 
@@ -195,19 +179,13 @@ export default function App() {
           <div>
             <TradePanel
               token={selectedToken}
-              wallet={wallet}
-              onConnectWallet={() => setShowWallet(true)}
+              wallet={null}
+              onConnectWallet={() => {}}
             />
             <LiveFeed />
           </div>
         </div>
       </div>
-
-      {showWallet && (
-        <WalletModal
-          onClose={() => setShowWallet(false)}
-        />
-      )}
     </div>
   )
 }
