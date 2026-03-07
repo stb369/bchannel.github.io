@@ -1,0 +1,291 @@
+/* ── Wrapper ── */
+.wrapper {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+/* ── Header row ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* ── Toggle buttons ── */
+.toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.toggleBtn {
+  padding: 7px 18px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.toggleBtn + .toggleBtn {
+  border-left: 1px solid var(--border);
+}
+
+.toggleBtn:hover {
+  background: rgba(0, 255, 136, 0.04);
+  color: var(--accent);
+}
+
+.toggleActive {
+  background: rgba(0, 255, 136, 0.1) !important;
+  color: var(--accent) !important;
+  font-weight: 600;
+}
+
+/* ── Refresh button ── */
+.refreshBtn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.refreshBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.refreshBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Error banner ── */
+.errorBanner {
+  padding: 8px 20px;
+  background: rgba(255, 60, 60, 0.08);
+  border-bottom: 1px solid rgba(255, 60, 60, 0.2);
+  color: var(--down);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+/* ── Table ── */
+.tableWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead tr {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid rgba(30, 45, 61, 0.5);
+  transition: background 0.12s;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: rgba(0, 255, 136, 0.03);
+}
+
+.table td {
+  padding: 11px 16px;
+  font-size: 12px;
+}
+
+.rank {
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  width: 36px;
+}
+
+.mono {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.upCell {
+  color: var(--up);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.downCell {
+  color: var(--down);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ── Coin cell ── */
+.coinCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coinEmoji {
+  font-size: 20px;
+}
+
+.coinSymbol {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.coinMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.coinName {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.chainBadge {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 3px;
+  padding: 1px 5px;
+  background: rgba(0, 255, 136, 0.05);
+}
+
+/* ── Contract info list ── */
+.contractList {
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contractRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(30, 45, 61, 0.4);
+}
+
+.contractRow:last-child {
+  border-bottom: none;
+}
+
+.contractSymbol {
+  color: var(--text);
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.contractAddr {
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+.pdaLabel {
+  color: rgba(255, 200, 60, 0.8);
+}
+
+.launchDate {
+  color: var(--muted);
+}
+
+.contractDesc {
+  color: var(--muted);
+  font-size: 10px;
+  flex: 1;
+  min-width: 160px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .table th:nth-child(5),
+  .table td:nth-child(5),
+  .table th:nth-child(6),
+  .table td:nth-child(6) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .table th:nth-child(7),
+  .table td:nth-child(7) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    display: none;
+  }
+
+  .header {
+    padding: 12px 16px;
+  }
+
+  .contractList {
+    padding: 8px 16px;
+  }
+}
