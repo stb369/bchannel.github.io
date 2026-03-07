@@ -8,6 +8,7 @@ import TokenCard from '../components/TokenCard'
 import TradePanel from '../components/TradePanel'
 import LiveFeed from '../components/LiveFeed'
 import WalletModal from '../components/WalletModal'
+import MemeTokenList from '../components/MemeTokenList'
 import styles from './App.module.css'
 
 const FILTERS: FilterOption[] = ['ALL', 'NEW', '🔥 HOT', 'SOL', 'ETH', 'BASE']
@@ -181,6 +182,10 @@ export default function App() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                <div style={{ marginTop: 32 }}>
+                  <MemeTokenList />
                 </div>
               </>
             )}
