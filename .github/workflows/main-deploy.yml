@@ -31,8 +31,8 @@ jobs:
         uses: actions/cache@v4
         id: library-cache
         with:
-          path: Library
-          key: ${{ runner.os }}-unity-${{ hashFiles('Assets/**','ProjectSettings/**') }}
+          path: BpB2-System/Library
+          key: ${{ runner.os }}-unity-${{ hashFiles('BpB2-System/Assets/**','BpB2-System/ProjectSettings/**') }}
           restore-keys: |
             ${{ runner.os }}-unity-library-
 
@@ -43,6 +43,8 @@ jobs:
           # 💡 Unityバージョンはプロジェクトに合わせてください
           unityVersion: 6000.2.14f1 
           targetPlatform: WebGL
+          # 💡 Unityプロジェクトのパスを指定（git操作のエラー防止に必須）
+          projectPath: BpB2-System
           # 💡 ビルド成果物を一時ディレクトリに保存
           buildsPath: ./BpB2-System/Build/WebGL
           
