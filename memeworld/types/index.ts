@@ -15,13 +15,6 @@ export interface Token {
   chain: Chain
 }
 
-export interface WalletOption {
-  id: string
-  name: string
-  icon: string
-  desc: string
-}
-
 export interface FeedItem {
   id: number
   t: Token
