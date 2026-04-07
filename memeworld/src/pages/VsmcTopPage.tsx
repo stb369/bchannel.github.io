@@ -102,6 +102,7 @@ export default function VsmcTopPage() {
   const [programIdInput, setProgramIdInput] = useState(DEFAULT_PROGRAM_ID ?? '')
   const [rpcInput, setRpcInput] = useState(DEFAULT_RPC)
 
+  // UI messages are intentionally in Japanese – this app targets Japanese users.
   const fetchMarkets = useCallback(async () => {
     if (!programIdInput.trim()) {
       setError('Program ID を入力してください')
